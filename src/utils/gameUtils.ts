@@ -1,22 +1,27 @@
 import { BoardStateType, BoardValue } from "../components/Game/Interfaces";
-import { Direction, Value } from "../components/interfaces/interfaces";
+import { Value } from "../components/interfaces/interfaces";
 
-export const areEqual = (prev: BoardStateType, curr: BoardStateType) => {
-  return JSON.stringify(prev) === JSON.stringify(curr);
+export const areEqual = (b1: BoardStateType, b2: BoardStateType) => {
+  const areBoardValuesEqual = (v1: BoardValue, v2: BoardValue): boolean =>
+    (v1 === null && v2 === null) ||
+    ((v1 && Object.keys(v1)?.length) === (v2 && Object.keys(v2)?.length) &&
+      Object.keys(v1).every((p) => v1[p] === v2[p]));
+
+  return b1.every((line, i) =>
+    line.every((value, j) => areBoardValuesEqual(value, b2[i][j]))
+  );
 };
 
 export const isGameOver = (board: BoardStateType) => {
-  const [merged] = merge(board);
-
-  if (merged.flat().includes(null)) {
+  if (board.flat().includes(null)) {
     return false;
   }
 
-  for (let i = 0; i < merged.length; i++) {
-    for (let j = 0; j < merged.length - 1; j++) {
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board.length - 1; j++) {
       if (
-        merged[i][j].value === merged[i][j + 1].value ||
-        merged[j][i].value === merged[j + 1][i].value
+        board[i][j].value === board[i][j + 1].value ||
+        board[j][i].value === board[j + 1][i].value
       ) {
         return false;
       }
@@ -24,17 +29,6 @@ export const isGameOver = (board: BoardStateType) => {
   }
 
   return true;
-};
-
-export const sift = (boardState: BoardStateType, direction: Direction) => {
-  const MOVES = {
-    up: moveUp,
-    down: moveDown,
-    right: moveRight,
-    left: moveLeft,
-  };
-
-  return MOVES[direction](boardState);
 };
 
 export const merge = (boardState: BoardStateType): [BoardStateType, number] => {

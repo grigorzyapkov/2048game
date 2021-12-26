@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { isGameOver } from "../../utils/gameUtils";
+import { isGameOver, merge } from "../../utils/gameUtils";
 import Button from "../Button";
 import { GameContext } from "../Game/Game";
 import { BoardValue } from "../Game/Interfaces";
@@ -69,7 +69,7 @@ export const Board = () => {
 
   return (
     <BoardContainer>
-      {isGameOver(boardState) && <GameOverLayer />}
+      {isGameOver(merge(boardState)[0]) && <GameOverLayer />}
       <BoardGrid />
       <TileContainer />
     </BoardContainer>
