@@ -1,0 +1,115 @@
+.tile {
+  position: absolute;
+  width: 106.25px;
+  height: 106.25px;
+  line-height: 106.25px;
+  float: left;
+  border-radius: 3px;
+  background: rgba(238, 228, 218, 0.35);
+  box-shadow: 0 0 30px 10px rgb(243 215 116 / 0%),
+    inset 0 0 0 1px rgb(255 255 255 / 0%);
+  transition: 100ms ease-in-out;
+  transition-property: transform;
+}
+
+.tileInner {
+  border-radius: 3px;
+  text-align: center;
+  font-weight: bold;
+  z-index: 10;
+  font-size: 45px;
+  animation: appear 200ms ease 100ms;
+  animation-fill-mode: backwards;
+}
+
+.tile-2 {
+  .tileInner {
+    background: #eee4da;
+  }
+}
+.tile-4 {
+  .tileInner {
+    background: #eee1c9;
+  }
+}
+.tile-8 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #f3b27a;
+  }
+}
+.tile-16 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #f69664;
+  }
+}
+.tile-32 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #f77c5f;
+  }
+}
+.tile-64 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #f75f3b;
+  }
+}
+.tile-128 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #edd073;
+    box-shadow: 0 0 30px 10px rgb(243 215 116 / 24%),
+      inset 0 0 0 1px rgb(255 255 255 / 14%);
+    font-size: 45px;
+  }
+}
+.tile-256 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #edcc62;
+    box-shadow: 0 0 30px 10px rgb(243 215 116 / 32%),
+      inset 0 0 0 1px rgb(255 255 255 / 19%);
+    font-size: 45px;
+  }
+}
+.tile-512 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #edc950;
+    box-shadow: 0 0 30px 10px rgb(243 215 116 / 40%),
+      inset 0 0 0 1px rgb(255 255 255 / 24%);
+    font-size: 45px;
+  }
+}
+.tile-1024 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #edc53f;
+    box-shadow: 0 0 30px 10px rgb(243 215 116 / 48%),
+      inset 0 0 0 1px rgb(255 255 255 / 29%);
+    font-size: 35px;
+  }
+}
+.tile-2048 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #edc22e;
+    box-shadow: 0 0 30px 10px rgb(243 215 116 / 56%),
+      inset 0 0 0 1px rgb(255 255 255 / 33%);
+    font-size: 35px;
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

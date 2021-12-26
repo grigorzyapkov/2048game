@@ -1,0 +1,12 @@
+.appButton {
+  background-color: #8f7a66;
+  border: none;
+  border-radius: 3px;
+  padding: 0 20px;
+  color: #f9f6f2;
+  height: 40px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+}

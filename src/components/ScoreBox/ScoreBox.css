@@ -1,0 +1,22 @@
+.scoreBox {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  background: #bbada0;
+  padding: 10px 15px;
+  border-radius: 3px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.scoreBox .title {
+  font-size: 13px;
+  color: #eee4da;
+  
+}
+
+.scoreBox .score {
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+}
