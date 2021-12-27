@@ -15,3 +15,5 @@ export interface IGameContext {
   boardState: BoardState;
   handleRestart: () => void;
 }
+
+export type Direction = "right" | "left";

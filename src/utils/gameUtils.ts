@@ -1,15 +1,13 @@
-import { BoardState, BoardValue } from "../components/Game/Interfaces";
+import {
+  BoardState,
+  BoardValue,
+  Direction,
+} from "../components/Game/Interfaces";
 import { Value } from "../components/interfaces/interfaces";
 
-export const areEqual = (b1: BoardState, b2: BoardState) => {
-  const areBoardValuesEqual = (v1: BoardValue, v2: BoardValue): boolean => {
-    return (
-      (v1 === null && v2 === null) ||
-      ((v1 && Object.keys(v1)?.length) === (v2 && Object.keys(v2)?.length) &&
-        Object.keys(v1).every((p) => v1[p] === v2[p]))
-    );
-  };
+const INDICES = [0, 1, 2, 3];
 
+export const areEqual = (b1: BoardState, b2: BoardState) => {
   return b1.every((x) => b2.some((y) => areBoardValuesEqual(x, y)));
 };
 
@@ -70,86 +68,66 @@ export const merge = (board: BoardState): [BoardState, number] => {
 };
 
 export const moveRight = (board: BoardState): BoardState => {
-  let result: BoardState = [];
-  for (let i = 0; i < 4; i++) {
-    result = [...result, ...shiftRowRight(getRow(board, i))];
-  }
-  return result;
+  return INDICES.map((i) =>
+    shiftHorizontally(getRow(board, i), "right")
+  ).flat();
 };
 
 export const moveLeft = (board: BoardState): BoardState => {
-  let result: BoardState = [];
-  for (let i = 0; i < 4; i++) {
-    result = [...result, ...shiftRowLeft(getRow(board, i))];
-  }
-  return result;
+  return INDICES.map((i) => shiftHorizontally(getRow(board, i), "left")).flat();
 };
 
 export const moveUp = (board: BoardState): BoardState => {
-  let result: BoardState = [];
-  for (let i = 0; i < 4; i++) {
-    result = [
-      ...result,
-      ...shift(
-        getColumn(board, i),
-        (v: BoardValue) => v.positionX,
-        (v: BoardValue, position: number) => (v.positionX = position),
-        "left"
-      ),
-    ];
-  }
-  return result;
+  return INDICES.map((i) =>
+    shiftVertically(getColumn(board, i), "left")
+  ).flat();
 };
 
 export const moveDown = (board: BoardState): BoardState => {
-  let result: BoardState = [];
-  for (let i = 0; i < 4; i++) {
-    result = [
-      ...result,
-      ...shift(
-        getColumn(board, i),
-        (v: BoardValue) => v.positionX,
-        (v: BoardValue, position: number) => (v.positionX = position),
-        "right"
-      ),
-    ];
-  }
-  return result;
+  return INDICES.map((i) =>
+    shiftVertically(getColumn(board, i), "right")
+  ).flat();
 };
 
-const shiftRowLeft = (line: Array<BoardValue>): Array<BoardValue> => {
+const shiftHorizontally = (
+  line: BoardState,
+  direction: Direction
+): BoardState => {
   return shift(
     line,
     (v: BoardValue) => v.positionY,
     (v: BoardValue, position: number) => (v.positionY = position),
-    "left"
+    direction
   );
 };
 
-const shiftRowRight = (line: BoardState): BoardState => {
+const shiftVertically = (
+  line: BoardState,
+  direction: Direction
+): BoardState => {
   return shift(
     line,
-    (v: BoardValue) => v.positionY,
-    (v: BoardValue, position: number) => (v.positionY = position),
-    "right"
+    (v: BoardValue) => v.positionX,
+    (v: BoardValue, position: number) => (v.positionX = position),
+    direction
   );
 };
 
 const shift = (
   line: BoardState,
-  getSecondaryColumn: (v: BoardValue) => number,
-  setSecondaryColumn: (v: BoardValue, position: number) => void,
-  direction: "left" | "right"
+  getColumn: (v: BoardValue) => number,
+  setColumn: (v: BoardValue, position: number) => void,
+  direction: Direction
 ): BoardState => {
   if (line.length === 0) {
     return [];
   }
   let result: BoardState = JSON.parse(JSON.stringify(line));
-  result.sort((v1, v2) => getSecondaryColumn(v1) - getSecondaryColumn(v2));
+  result.sort((v1, v2) => getColumn(v1) - getColumn(v2));
 
   const startPosition = direction === "left" ? 0 : 4 - result.length;
   for (let i = 0; i < result.length; i++) {
-    setSecondaryColumn(result[i], startPosition + i);
+    setColumn(result[i], startPosition + i);
   }
 
   direction === "left" && result.reverse();
@@ -158,7 +136,7 @@ const shift = (
     if (result[i].value === result[i - 1].value && result[i].value !== "2048") {
       for (let j = 0; j <= i - 1; j++) {
         const shift = direction === "right" ? 1 : -1;
-        setSecondaryColumn(result[j], getSecondaryColumn(result[j]) + shift);
+        setColumn(result[j], getColumn(result[j]) + shift);
       }
       i -= 2;
       continue;
@@ -231,5 +209,13 @@ const getMaxId = (boardState: BoardState): number => {
   return Math.max.apply(
     Math,
     boardState.map((x) => x.id)
+  );
+};
+
+const areBoardValuesEqual = (v1: BoardValue, v2: BoardValue): boolean => {
+  return (
+    (v1 === null && v2 === null) ||
+    ((v1 && Object.keys(v1)?.length) === (v2 && Object.keys(v2)?.length) &&
+      Object.keys(v1).every((p) => v1[p] === v2[p]))
   );
 };
