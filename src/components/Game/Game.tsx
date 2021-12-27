@@ -4,17 +4,16 @@ import ScoresContainer from "../ScoresContainer";
 import Board from "../Board";
 
 import "./Game.css";
-import { BoardStateType, IGameContext } from "./Interfaces";
+import { BoardState, IGameContext } from "./Interfaces";
 import {
+  addRandomValue,
   areEqual,
-  getNextId,
   merge,
   moveDown,
   moveLeft,
   moveRight,
   moveUp,
 } from "../../utils/gameUtils";
-import { Value } from "../interfaces/interfaces";
 import Button from "../Button";
 
 const GameTitle = () => <span className="gameTitle">2048</span>;
@@ -56,15 +55,14 @@ const MOVES = {
 };
 
 export const Game = () => {
-  // TODO: test to see if ... spread needed
-  const [boardState, setBoardState] = useState<BoardStateType>([
+  const [boardState, setBoardState] = useState<BoardState>([
     ...boardInitialState,
   ]);
   const [score, setScore] = useState<number>(0);
   const [addScore, setAddScore] = useState<number>(0);
 
   const handleGenerate = () => {
-    setBoardState(addRandomNumber(boardState));
+    setBoardState(addRandomValue(boardState));
   };
 
   useEffect(() => {
@@ -75,27 +73,25 @@ export const Game = () => {
         return;
       }
 
-      const newBoardState: BoardStateType = move(boardState);
+      const newBoardState: BoardState = move(boardState);
       if (areEqual(boardState, newBoardState)) {
+        console.log("equal");
         return;
       }
-      
-      console.log("after move", newBoardState);
+
       setBoardState(newBoardState);
 
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         const [mergedBoard, moveScore] = merge(newBoardState);
-        console.log("after merge", mergedBoard);
         setBoardState(mergedBoard);
         setScore(score + moveScore);
         setAddScore(moveScore);
 
         setTimeout(() => {
-          const board = addRandomNumber(mergedBoard);
-          console.log("after random number", board);
+          const board = addRandomValue(mergedBoard);
           setBoardState(board);
-        }, 100);
-      }, 0);
+        }, 50);
+      });
     };
 
     document.addEventListener("keydown", handleKeyPress);
@@ -106,7 +102,7 @@ export const Game = () => {
   }, [boardState, score]);
 
   const handleRestart = () => {
-    setBoardState(boardEmptyState);
+    setBoardState([]);
     setTimeout(() => {
       setBoardState([...boardInitialState]);
     }, 100);
@@ -131,44 +127,9 @@ export const Game = () => {
   );
 };
 
-const boardInitialState: BoardStateType = [
-  [null, null, null, null],
-  [null, null, { id: 1, value: "2", positionX: 1, positionY: 2 }, null],
-  [null, { id: 2, value: "2", positionX: 2, positionY: 1 }, null, null],
-  [null, null, null, null],
+const boardInitialState: BoardState = [
+  { id: 1, value: "2", positionX: 1, positionY: 0 },
+  { id: 2, value: "2", positionX: 1, positionY: 1 },
+  { id: 3, value: "2", positionX: 1, positionY: 2 },
+  { id: 4, value: "2", positionX: 2, positionY: 1 },
 ];
-
-const boardEmptyState: BoardStateType = [
-  [null, null, null, null],
-  [null, null, null, null],
-  [null, null, null, null],
-  [null, null, null, null],
-];
-
-const addRandomNumber = (boardState: BoardStateType): BoardStateType => {
-  const number: Value = Math.random() <= 0.2 ? "4" : "2";
-  const result = JSON.parse(JSON.stringify(boardState));
-
-  const id = getNextId(result);
-
-  const emptyPositions = result.reduce((prev, curr) => {
-    return prev + curr.filter((x) => x === null).length;
-  }, 0);
-  const position = Math.floor(Math.random() * emptyPositions) + 1;
-  let currentEmptyPosition = 0;
-
-  for (let i = 0; i < result.length; i++) {
-    for (let j = 0; j < result[i].length; j++) {
-      if (result[i][j] === null) {
-        currentEmptyPosition++;
-      }
-
-      if (currentEmptyPosition === position) {
-        result[i][j] = { id: id, value: number, positionX: i, positionY: j };
-        return result;
-      }
-    }
-  }
-
-  return result;
-};

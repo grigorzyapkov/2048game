@@ -7,11 +7,11 @@ export interface BoardValue {
   positionY: number;
 }
 
-export type BoardStateType = Array<Array<BoardValue | null>>;
+export type BoardState = BoardValue[];
 
 export interface IGameContext {
   score: number;
   addScore: number;
-  boardState: BoardStateType;
+  boardState: BoardState;
   handleRestart: () => void;
 }

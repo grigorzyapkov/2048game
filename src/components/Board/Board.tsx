@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { isGameOver, merge } from "../../utils/gameUtils";
 import Button from "../Button";
 import { GameContext } from "../Game/Game";
-import { BoardValue } from "../Game/Interfaces";
+import { BoardState, BoardValue } from "../Game/Interfaces";
 import Tile from "../Tile";
 
 import "./Board.scss";
@@ -37,7 +37,7 @@ const BoardGrid = () => {
   return <div className="gridContainer">{grid}</div>;
 };
 
-const TilesList = (props: { values: BoardValue[] }) => {
+const TilesList = (props: { values: BoardState }) => {
   return (
     <>
       {props.values.map((x) => (
@@ -50,12 +50,7 @@ const TilesList = (props: { values: BoardValue[] }) => {
 const TileContainer = () => {
   const { boardState } = useContext(GameContext);
 
-  const values = boardState
-    .reduce((prev, curr) => {
-      return [...prev, ...curr.filter((x) => x !== null)];
-    }, [])
-    .sort((a, b) => a.id - b.id);
-
+  const values = boardState.sort((b1, b2) => b1.id - b2.id);
   return (
     <div className="tileContainer">
       <TilesList values={values} />
@@ -64,7 +59,6 @@ const TileContainer = () => {
 };
 
 export const Board = () => {
-
   const { boardState } = useContext(GameContext);
 
   return (
