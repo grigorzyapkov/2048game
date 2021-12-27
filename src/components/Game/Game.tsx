@@ -81,8 +81,9 @@ export const Game = () => {
 
       setBoardState(newBoardState);
 
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         const [mergedBoard, moveScore] = merge(newBoardState);
+
         setBoardState(mergedBoard);
         setScore(score + moveScore);
         setAddScore(moveScore);
@@ -90,8 +91,8 @@ export const Game = () => {
         setTimeout(() => {
           const board = addRandomValue(mergedBoard);
           setBoardState(board);
-        }, 50);
-      });
+        }, 150);
+      }, 100);
     };
 
     document.addEventListener("keydown", handleKeyPress);

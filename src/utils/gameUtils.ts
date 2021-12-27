@@ -68,9 +68,7 @@ export const merge = (board: BoardState): [BoardState, number] => {
 };
 
 export const moveRight = (board: BoardState): BoardState => {
-  return INDICES.map((i) =>
-    shiftHorizontally(getRow(board, i), "right")
-  ).flat();
+  return INDICES.map((i) => shiftHorizontally(getRow(board, i), "right")).flat();
 };
 
 export const moveLeft = (board: BoardState): BoardState => {
@@ -148,18 +146,7 @@ const shift = (
   return result;
 };
 
-export const isExists = (
-  board: BoardState,
-  positionX: number,
-  positionY: number
-) => {
-  return board.some(
-    (x) => x.positionX === positionX && x.positionY === positionY
-  );
-};
-
 export const addRandomValue = (board: BoardState): BoardState => {
-  const start = Date.now();
   const result = JSON.parse(JSON.stringify(board));
 
   const getCoordinates = (position: number): [number, number] => {
@@ -188,9 +175,17 @@ export const addRandomValue = (board: BoardState): BoardState => {
     },
   ];
 
-  console.log("addRandomNumber - " + (Date.now() - start));
-
   return x;
+};
+
+const isExists = (
+  board: BoardState,
+  positionX: number,
+  positionY: number
+): boolean => {
+  return board.some(
+    (x) => x.positionX === positionX && x.positionY === positionY
+  );
 };
 
 export const getRow = (board: BoardState, row: number): Array<BoardValue> =>
