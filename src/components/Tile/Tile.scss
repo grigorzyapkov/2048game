@@ -62,7 +62,6 @@
     background: #edd073;
     box-shadow: 0 0 30px 10px rgb(243 215 116 / 24%),
       inset 0 0 0 1px rgb(255 255 255 / 14%);
-    font-size: 45px;
   }
 }
 .tile-256 {
@@ -71,7 +70,6 @@
     background: #edcc62;
     box-shadow: 0 0 30px 10px rgb(243 215 116 / 32%),
       inset 0 0 0 1px rgb(255 255 255 / 19%);
-    font-size: 45px;
   }
 }
 .tile-512 {
@@ -80,7 +78,6 @@
     background: #edc950;
     box-shadow: 0 0 30px 10px rgb(243 215 116 / 40%),
       inset 0 0 0 1px rgb(255 255 255 / 24%);
-    font-size: 45px;
   }
 }
 .tile-1024 {
@@ -111,5 +108,29 @@
   100% {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .tile {
+    width: 85px;
+    height: 85px;
+    line-height: 85px;
+  }
+
+  .tileInner {
+    font-size: 36px;
+  }
+
+  .tile-1024 {
+    .tileInner {
+      font-size: 28px;
+    }
+  }
+
+  .tile-2048 {
+    .tileInner {
+      font-size: 28px;
+    }
   }
 }

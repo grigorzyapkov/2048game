@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { isGameOver, merge } from "../../utils/gameUtils";
 import Button from "../Button";
 import { GameContext } from "../Game/Game";
-import { BoardState, BoardValue } from "../Game/Interfaces";
+import { BoardState } from "../Game/Interfaces";
 import Tile from "../Tile";
 
 import "./Board.scss";
@@ -37,13 +37,34 @@ const BoardGrid = () => {
   return <div className="gridContainer">{grid}</div>;
 };
 
+type TransformFactor = 121 | 96.8;
+
+const calcFactor = () => window.outerWidth <= 500 ? 96.8 : 121
+
 const TilesList = (props: { values: BoardState }) => {
+  const [factor, setFactor] = useState<TransformFactor>(calcFactor());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setFactor(calcFactor());
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <>
+    <div>
       {props.values.map((x) => (
-        <Tile key={x.id} value={x.value} x={x.positionY} y={x.positionX} />
+        <Tile
+          key={x.id}
+          value={x.value}
+          x={x.positionY * factor}
+          y={x.positionX * factor}
+        />
       ))}
-    </>
+    </div>
   );
 };
 

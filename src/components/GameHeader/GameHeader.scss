@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    #restartGameBtn {
+      margin-top: 10px;
+    }
+  }
+}
+
+@media only screen and (min-width: 750px) and (max-height: 700px) {
+  .header {
+    width: 200px;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}

@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import GameContainer from "../GameContainer";
-import ScoresContainer from "../ScoresContainer";
 import Board from "../Board";
 
 import "./Game.css";
@@ -14,36 +13,7 @@ import {
   moveRight,
   moveUp,
 } from "../../utils/gameUtils";
-import Button from "../Button";
-
-const GameTitle = () => <span className="gameTitle">2048</span>;
-
-const ShortDescription = () => {
-  return (
-    <div>
-      <span>Join the tiles, get to 2048!</span>
-      <br />
-      <a href="#id">How to play →</a>
-    </div>
-  );
-};
-
-const GameHeader = () => {
-  const { handleRestart } = useContext(GameContext);
-
-  return (
-    <div className="header">
-      <div className="flex">
-        <GameTitle />
-        <ScoresContainer />
-      </div>
-      <div className="flexWithSpaceBetween">
-        <ShortDescription />
-        <Button onClick={(_) => handleRestart()}>New Game</Button>
-      </div>
-    </div>
-  );
-};
+import GameHeader from "../GameHeader";
 
 export const GameContext = React.createContext<IGameContext>(null);
 
@@ -60,10 +30,6 @@ export const Game = () => {
   ]);
   const [score, setScore] = useState<number>(0);
   const [addScore, setAddScore] = useState<number>(0);
-
-  const handleGenerate = () => {
-    setBoardState(addRandomValue(boardState));
-  };
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {

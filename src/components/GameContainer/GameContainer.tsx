@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./GameContainer.css";
+import "./GameContainer.scss";
 
 interface GameContainerProps {
   children: React.ReactNode;

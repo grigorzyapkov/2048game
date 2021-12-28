@@ -10,13 +10,11 @@ interface TileProps {
 }
 
 export const Tile = (props: TileProps) => {
-  const translateX = 121 * props.x;
-  const translateY = 121 * props.y;
 
   return (
     <div
       className={`tile tile-${props.value}`}
-      style={{ transform: `translate(${translateX}px, ${translateY}px)` }}
+      style={{ transform: `translate(${props.x}px, ${props.y}px)` }}
     >
       <div className="tileInner">{props.value}</div>
     </div>
