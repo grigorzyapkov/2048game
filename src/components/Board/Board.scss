@@ -11,11 +11,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  -webkit-animation: fade-in 2200ms ease 3200ms;
-  -moz-animation: fade-in 2200ms ease 3200ms;
-  animation: fade-in 2200ms ease 3200ms;
-  -webkit-animation-fill-mode: both;
-  -moz-animation-fill-mode: both;
+  animation: fade-in 1200ms ease 500ms;
   animation-fill-mode: both;
 
   p {
@@ -65,4 +61,14 @@
 .tileContainer {
   position: absolute;
   z-index: 2;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

@@ -11,7 +11,7 @@ const BoardContainer = (props: { children: React.ReactNode }) => {
   return <div className="boardContainer">{props.children}</div>;
 };
 
-const GameOverLayer = () => {
+const GameOverContainer = () => {
   const { handleRestart } = useContext(GameContext);
 
   return (
@@ -63,7 +63,7 @@ export const Board = () => {
 
   return (
     <BoardContainer>
-      {isGameOver(merge(boardState)[0]) && <GameOverLayer />}
+      {isGameOver(merge(boardState)[0]) && <GameOverContainer />}
       <BoardGrid />
       <TileContainer />
     </BoardContainer>

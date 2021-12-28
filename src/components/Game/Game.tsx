@@ -121,7 +121,6 @@ export const Game = () => {
     >
       <GameContainer>
         <GameHeader />
-        <Button onClick={handleGenerate}>Generate Tile</Button>
         <Board />
       </GameContainer>
     </GameContext.Provider>
@@ -129,8 +128,20 @@ export const Game = () => {
 };
 
 const boardInitialState: BoardState = [
-  { id: 1, value: "2", positionX: 1, positionY: 0 },
-  { id: 2, value: "2", positionX: 1, positionY: 1 },
-  { id: 3, value: "2", positionX: 1, positionY: 2 },
-  { id: 4, value: "2", positionX: 2, positionY: 1 },
+  { id: 1, value: "2", positionX: 0, positionY: 0 },
+  { id: 2, value: "4", positionX: 0, positionY: 1 },
+  { id: 3, value: "8", positionX: 0, positionY: 2 },
+  { id: 4, value: "16", positionX: 0, positionY: 3 },
+  { id: 5, value: "16", positionX: 1, positionY: 0 },
+  { id: 6, value: "8", positionX: 1, positionY: 1 },
+  { id: 7, value: "4", positionX: 1, positionY: 2 },
+  { id: 8, value: "2", positionX: 1, positionY: 3 },
+  { id: 9, value: "2", positionX: 2, positionY: 0 },
+  { id: 10, value: "4", positionX: 2, positionY: 1 },
+  { id: 11, value: "8", positionX: 2, positionY: 2 },
+  { id: 12, value: "16", positionX: 2, positionY: 3 },
+  { id: 13, value: "16", positionX: 3, positionY: 0 },
+  { id: 14, value: "8", positionX: 3, positionY: 1 },
+  { id: 15, value: "4", positionX: 3, positionY: 2 },
+  { id: 16, value: "16", positionX: 3, positionY: 3 },
 ];
