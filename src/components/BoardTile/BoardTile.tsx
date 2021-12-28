@@ -1,7 +1,7 @@
 import React from "react";
-import { Value } from "../interfaces/interfaces";
+import { Value } from "../Interfaces";
 
-import "./Tile.scss";
+import "./BoardTile.scss";
 
 interface TileProps {
   value: Value;
@@ -9,7 +9,7 @@ interface TileProps {
   y: number;
 }
 
-export const Tile = (props: TileProps) => {
+export const BoardTile = (props: TileProps) => {
 
   return (
     <div

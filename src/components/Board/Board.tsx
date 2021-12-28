@@ -3,9 +3,8 @@ import { ScreenSizeBreakpoint, TilesScreenTransformFactor } from "../../constant
 import { isGameOver, merge } from "../../utils/gameUtils";
 import Button from "../Button";
 import { GameContext } from "../Game/Game";
-import { BoardState } from "../Game/Interfaces";
-import { TransformFactor } from "../interfaces/interfaces";
-import Tile from "../Tile";
+import { Tile, TransformFactor } from "../Interfaces";
+import BoardTile from "../BoardTile";
 
 import "./Board.scss";
 
@@ -50,7 +49,7 @@ const calcFactor = () => {
   return TilesScreenTransformFactor.M;
 }
 
-const TilesList = (props: { values: BoardState }) => {
+const TilesList = (props: { values: Tile[] }) => {
   const [factor, setFactor] = useState<TransformFactor>(calcFactor());
 
   useEffect(() => {
@@ -66,7 +65,7 @@ const TilesList = (props: { values: BoardState }) => {
   return (
     <div>
       {props.values.map((x) => (
-        <Tile
+        <BoardTile
           key={x.id}
           value={x.value}
           x={x.positionY * factor}
@@ -78,9 +77,9 @@ const TilesList = (props: { values: BoardState }) => {
 };
 
 const TileContainer = () => {
-  const { boardState } = useContext(GameContext);
+  const { tiles } = useContext(GameContext);
 
-  const values = boardState.sort((b1, b2) => b1.id - b2.id);
+  const values = tiles.sort((b1, b2) => b1.id - b2.id);
   return (
     <div className="tileContainer">
       <TilesList values={values} />
@@ -89,11 +88,11 @@ const TileContainer = () => {
 };
 
 export const Board = () => {
-  const { boardState } = useContext(GameContext);
+  const { tiles } = useContext(GameContext);
 
   return (
     <BoardContainer>
-      {isGameOver(merge(boardState)[0]) && <GameOverContainer />}
+      {isGameOver(merge(tiles)[0]) && <GameOverContainer />}
       <BoardGrid />
       <TileContainer />
     </BoardContainer>

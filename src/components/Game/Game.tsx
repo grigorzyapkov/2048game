@@ -3,10 +3,10 @@ import GameContainer from "../GameContainer";
 import Board from "../Board";
 
 import "./Game.scss";
-import { BoardState, IGameContext } from "./Interfaces";
 import {
-  addRandomValue,
   areEqual,
+  generateBoard,
+  generateTile,
   merge,
   moveDown,
   moveLeft,
@@ -14,6 +14,7 @@ import {
   moveUp,
 } from "../../utils/gameUtils";
 import GameHeader from "../GameHeader";
+import { IGameContext, Tile } from "../Interfaces";
 
 export const GameContext = React.createContext<IGameContext>(null);
 
@@ -25,9 +26,7 @@ const MOVES = {
 };
 
 export const Game = () => {
-  const [boardState, setBoardState] = useState<BoardState>([
-    ...boardInitialState,
-  ]);
+  const [tiles, setTiles] = useState<Tile[]>(generateBoard());
   const [score, setScore] = useState<number>(0);
   const [addScore, setAddScore] = useState<number>(0);
 
@@ -39,24 +38,23 @@ export const Game = () => {
         return;
       }
 
-      const newBoardState: BoardState = move(boardState);
-      if (areEqual(boardState, newBoardState)) {
+      const newTiles: Tile[] = move(tiles);
+      if (areEqual(tiles, newTiles)) {
         console.log("equal");
         return;
       }
 
-      setBoardState(newBoardState);
+      setTiles(newTiles);
 
       setTimeout(() => {
-        const [mergedBoard, moveScore] = merge(newBoardState);
+        const [merged, moveScore] = merge(newTiles);
 
-        setBoardState(mergedBoard);
+        setTiles(merged);
         setScore(score + moveScore);
         setAddScore(moveScore);
 
         setTimeout(() => {
-          const board = addRandomValue(mergedBoard);
-          setBoardState(board);
+          setTiles([...merged, generateTile(merged)]);
         }, 150);
       }, 100);
     };
@@ -66,12 +64,12 @@ export const Game = () => {
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, [boardState, score]);
+  }, [tiles, score]);
 
   const handleRestart = () => {
-    setBoardState([]);
+    setTiles([]);
     setTimeout(() => {
-      setBoardState([...boardInitialState]);
+      setTiles(generateBoard());
     }, 100);
     setScore(0);
   };
@@ -79,7 +77,7 @@ export const Game = () => {
   return (
     <GameContext.Provider
       value={{
-        boardState,
+        tiles: tiles,
         score,
         addScore,
         handleRestart,
@@ -92,17 +90,3 @@ export const Game = () => {
     </GameContext.Provider>
   );
 };
-
-const boardInitialState: BoardState = [
-  { id: 5, value: "16", positionX: 1, positionY: 0 },
-  { id: 6, value: "8", positionX: 1, positionY: 1 },
-  { id: 7, value: "4", positionX: 1, positionY: 2 },
-  { id: 8, value: "2", positionX: 1, positionY: 3 },
-  { id: 9, value: "2", positionX: 2, positionY: 0 },
-  { id: 10, value: "4", positionX: 2, positionY: 1 },
-  { id: 11, value: "8", positionX: 2, positionY: 2 },
-  { id: 12, value: "16", positionX: 2, positionY: 3 },
-  { id: 13, value: "16", positionX: 3, positionY: 0 },
-  { id: 14, value: "8", positionX: 3, positionY: 1 },
-  { id: 15, value: "4", positionX: 3, positionY: 2 },
-];

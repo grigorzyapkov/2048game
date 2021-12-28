@@ -1,4 +1,4 @@
-import { TransformFactor } from "../components/interfaces/interfaces"
+import { TransformFactor } from "../components/Interfaces"
 
 /*
 Size XS screen: Up to 420 pixels
