@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import GameContainer from "../GameContainer";
 import Board from "../Board";
 
-import "./Game.css";
+import "./Game.scss";
 import { BoardState, IGameContext } from "./Interfaces";
 import {
   addRandomValue,

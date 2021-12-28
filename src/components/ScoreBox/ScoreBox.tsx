@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./ScoreBox.css";
+import "./ScoreBox.scss";
 
 interface ScoreBoxProps {
   title: string;

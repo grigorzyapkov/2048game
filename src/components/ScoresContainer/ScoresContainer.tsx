@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { GameContext } from "../Game/Game";
 
-import "./ScoresContainer.css";
+import "./ScoresContainer.scss";
 
 interface ScoreBoxProps {
   title: string;
