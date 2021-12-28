@@ -1,8 +1,8 @@
 .tile {
   position: absolute;
-  width: 106.25px;
-  height: 106.25px;
-  line-height: 106.25px;
+  width: 106px;
+  height: 106px;
+  line-height: 106px;
   float: left;
   border-radius: 3px;
   background: rgba(238, 228, 218, 0.35);
@@ -137,9 +137,9 @@
 
 @media only screen and (max-width: 420px) {
   .tile {
-    width: 63.75px;
-    height: 63.75px;
-    line-height: 63.75px;
+    width: 64px;
+    height: 64px;
+    line-height: 64px;
   }
 
   .tileInner {
