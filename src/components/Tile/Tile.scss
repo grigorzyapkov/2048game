@@ -111,7 +111,7 @@
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 520px) {
   .tile {
     width: 85px;
     height: 85px;
@@ -131,6 +131,30 @@
   .tile-2048 {
     .tileInner {
       font-size: 28px;
+    }
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .tile {
+    width: 63.75px;
+    height: 63.75px;
+    line-height: 63.75px;
+  }
+
+  .tileInner {
+    font-size: 27px;
+  }
+
+  .tile-1024 {
+    .tileInner {
+      font-size: 21px;
+    }
+  }
+
+  .tile-2048 {
+    .tileInner {
+      font-size: 21px;
     }
   }
 }

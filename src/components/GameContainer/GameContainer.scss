@@ -11,8 +11,14 @@
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 520px) {
   .container {
     width: 400px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .container {
+    width: 300px;
   }
 }

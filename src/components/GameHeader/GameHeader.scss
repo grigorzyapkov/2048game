@@ -21,3 +21,17 @@
     justify-content: flex-start;
   }
 }
+
+@media only screen and (max-width: 420px) {
+  .header {
+    flex-direction: column;
+    .actions {
+      flex-direction: row-reverse;
+      justify-content: space-between;
+
+      .scoresContainer {
+        width: auto;
+      }
+    }
+  }
+}

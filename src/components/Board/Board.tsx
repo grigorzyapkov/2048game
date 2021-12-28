@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
+import { ScreenSizeBreakpoint, TilesScreenTransformFactor } from "../../constants/constants";
 import { isGameOver, merge } from "../../utils/gameUtils";
 import Button from "../Button";
 import { GameContext } from "../Game/Game";
 import { BoardState } from "../Game/Interfaces";
+import { TransformFactor } from "../interfaces/interfaces";
 import Tile from "../Tile";
 
 import "./Board.scss";
@@ -37,9 +39,16 @@ const BoardGrid = () => {
   return <div className="gridContainer">{grid}</div>;
 };
 
-type TransformFactor = 121 | 96.8;
+const calcFactor = () => {
+  if(window.innerWidth <= ScreenSizeBreakpoint.XS){
+    return TilesScreenTransformFactor.XS;
+  }
+  if(window.innerWidth <= ScreenSizeBreakpoint.S){
+    return TilesScreenTransformFactor.S;
+  }
 
-const calcFactor = () => window.outerWidth <= 500 ? 96.8 : 121
+  return TilesScreenTransformFactor.M;
+}
 
 const TilesList = (props: { values: BoardState }) => {
   const [factor, setFactor] = useState<TransformFactor>(calcFactor());
