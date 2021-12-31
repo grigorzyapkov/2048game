@@ -18,7 +18,7 @@ const ShortDescription = () => {
 };
 
 export const GameHeader = () => {
-  const { handleRestart } = useContext(GameContext);
+  const { restartGame: handleRestart } = useContext(GameContext);
 
   return (
     <div className="header">

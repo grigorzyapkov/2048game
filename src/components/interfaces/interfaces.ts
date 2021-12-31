@@ -2,6 +2,8 @@ export type Value = "2" | "4" | "8" | "16" | "32" | "64" | "128" | "256" | "512"
 
 export type TransformFactor = 121 | 97 | 73;
 
+export type MoveKeyCode = "ArrowUp" | "ArrowDown" | "ArrowRight" | "ArrowLeft";
+
 export type Direction = "right" | "left";
 
 export interface Tile {
@@ -13,7 +15,6 @@ export interface Tile {
 
 export interface IGameContext {
   score: number;
-  addScore: number;
   tiles: Tile[];
-  handleRestart: () => void;
+  restartGame: () => void;
 }

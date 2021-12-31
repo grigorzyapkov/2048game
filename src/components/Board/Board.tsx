@@ -13,7 +13,7 @@ const BoardContainer = (props: { children: React.ReactNode }) => {
 };
 
 const GameOverContainer = () => {
-  const { handleRestart } = useContext(GameContext);
+  const { restartGame: handleRestart } = useContext(GameContext);
 
   return (
     <div id="gameOverContainer" className="gameOverContainer">

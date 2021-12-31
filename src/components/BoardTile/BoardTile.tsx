@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Value } from "../Interfaces";
 
 import "./BoardTile.scss";
@@ -9,7 +9,8 @@ interface TileProps {
   y: number;
 }
 
-export const BoardTile = (props: TileProps) => {
+export const BoardTile = memo((props: TileProps) => {
+  // console.log("render BoardTile: ", props);
 
   return (
     <div
@@ -19,4 +20,4 @@ export const BoardTile = (props: TileProps) => {
       <div className="tileInner">{props.value}</div>
     </div>
   );
-};
+});

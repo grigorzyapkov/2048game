@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { GameContext } from "../Game/Game";
 
 import "./ScoresContainer.scss";
@@ -21,16 +21,19 @@ const ScoreBox = (props: ScoreBoxProps) => {
 };
 
 export const ScoresContainer = () => {
-  const { score, addScore } = useContext(GameContext);
+  const { score } = useContext(GameContext);
+  const prevScore = usePrevious(score);
 
   useEffect(() => {
-    if (addScore === 0) {
+
+    if (score === prevScore) {
       return;
     }
+    const diff = score - prevScore;
     const div = document.createElement("div");
     div.id = "additionScore";
     div.classList.add("addScore");
-    div.innerText = `+${addScore}`;
+    div.innerText = `+${diff}`;
 
     const currentScoreBox = document.getElementById("currentScoreBox");
     if (currentScoreBox.childElementCount === 2) {
@@ -38,7 +41,7 @@ export const ScoresContainer = () => {
     }else {
       currentScoreBox.appendChild(div);
     }
-  }, [score, addScore]);
+  }, [score, prevScore]);
 
   return (
     <div className="scoresContainer">
@@ -51,3 +54,11 @@ export const ScoresContainer = () => {
     </div>
   );
 };
+
+const usePrevious = (value: number): number => {
+  const ref = useRef<number>(0);
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
