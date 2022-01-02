@@ -5,8 +5,8 @@ import Board from "../Board";
 import "./Game.scss";
 import {
   areEqual,
+  createRandomTile,
   generateBoard,
-  generateTile,
   merge,
   moveDown,
   moveLeft,
@@ -85,13 +85,8 @@ const useGameState = (): {
     setTiles(nextTiles);
     setTimeout(() => {
       const merged = merge(nextTiles);
-      setTiles(merged);
-
-      setTimeout(() => {
-        const tiles = [...merged, generateTile(merged)];
-        setTiles(tiles);
-        setLoading(false);
-      }, 0);
+      setTiles([...merged, createRandomTile(merged)]);
+      setLoading(false);
     }, 100);
 
     // TODO: Should clear timeouts

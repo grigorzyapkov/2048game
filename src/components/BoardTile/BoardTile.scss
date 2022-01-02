@@ -18,7 +18,15 @@
   font-weight: bold;
   z-index: 10;
   font-size: 45px;
-  animation: appear 200ms ease 100ms;
+}
+
+.new {
+  animation: appear 300ms ease 100ms;
+  animation-fill-mode: backwards;
+}
+
+.merged {
+  animation: grow 200ms ease 100ms;
   animation-fill-mode: backwards;
 }
 
@@ -107,6 +115,20 @@
 
   100% {
     opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
     transform: scale(1);
   }
 }

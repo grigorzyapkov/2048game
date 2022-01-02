@@ -6,9 +6,12 @@ export type MoveKeyCode = "ArrowUp" | "ArrowDown" | "ArrowRight" | "ArrowLeft";
 
 export type Direction = "right" | "left";
 
+export type TileType = "merged" | "new";
+
 export interface Tile {
   id: number;
   value: Value;
+  type: TileType;
   positionX: number;
   positionY: number;
 }

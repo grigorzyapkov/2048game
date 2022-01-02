@@ -59,7 +59,7 @@ export const merge = (tiles: Tile[]): Tile[] => {
     const key = `${v.positionX}${v.positionY}`;
     if (values[key]) {
       const value = parseInt(v.value) * 2;
-      values[key] = { ...v, id: id++, value: value.toString() as Value };
+      values[key] = { ...v, id: id++, value: value.toString() as Value, type: "merged" };
     } else {
       values[key] = v;
     }
@@ -146,14 +146,14 @@ const shift = (
 export const generateBoard = (tilesCount: number = 2): Tile[] => {
   let tiles = [];
   while(tilesCount > 0){
-    tiles = [...tiles, generateTile(tiles)];
+    tiles = [...tiles, createRandomTile(tiles)];
     tilesCount--;
   }
 
   return tiles;
 }
 
-export const generateTile = (tiles: Tile[]): Tile => {
+export const createRandomTile = (tiles: Tile[]): Tile => {
   const getCoordinates = (position: number): [number, number] => {
     const x = Math.floor(position / 4);
     const y = position % 4;
@@ -174,6 +174,7 @@ export const generateTile = (tiles: Tile[]): Tile => {
   return {
     id: getNextId(tiles),
     value,
+    type: "new",
     positionX: coordinates[0],
     positionY: coordinates[1],
   };
@@ -200,6 +201,6 @@ export const getNextId = (tiles: Tile[]): number => {
 };
 
 // Returns the maximum id of the given tiles.
-const getMaxId = (tiles: Tile[]): number => {
+export const getMaxId = (tiles: Tile[]): number => {
   return Math.max.apply(Math, [0, ...tiles.map((x) => x.id)]);
 };

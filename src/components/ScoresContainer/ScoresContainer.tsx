@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useReducer } from "react";
+import { getMaxId } from "../../utils/gameUtils";
 import { GameContext } from "../Game/Game";
 import { Tile } from "../Interfaces";
 import { ACTIONTYPE, ScoreBoxProps, ScoresState } from "./Interfaces";
@@ -78,8 +79,13 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
       }
 
       // handles merge
+      const lastGeneratedTileId = getMaxId(tiles);
       const newPoints = tiles.reduce((acc: number, curr: Tile) => {
-        return acc + (containsTile(state.tiles, curr) ? 0 : parseInt(curr.value));
+        const add =
+          curr.id === lastGeneratedTileId || containsTile(state.tiles, curr)
+            ? 0
+            : parseInt(curr.value);
+        return acc + add;
       }, 0);
 
       return {

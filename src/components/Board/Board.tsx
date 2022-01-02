@@ -49,7 +49,7 @@ const calcFactor = () => {
   return TilesScreenTransformFactor.M;
 }
 
-const TilesList = (props: { values: Tile[] }) => {
+const TilesList = (props: { tiles: Tile[] }) => {
   const [factor, setFactor] = useState<TransformFactor>(calcFactor());
 
   useEffect(() => {
@@ -64,10 +64,11 @@ const TilesList = (props: { values: Tile[] }) => {
 
   return (
     <div>
-      {props.values.map((x) => (
+      {props.tiles.map((x) => (
         <BoardTile
           key={x.id}
           value={x.value}
+          type={x.type}
           x={x.positionY * factor}
           y={x.positionX * factor}
         />
@@ -79,10 +80,10 @@ const TilesList = (props: { values: Tile[] }) => {
 const TileContainer = () => {
   const { tiles } = useContext(GameContext);
 
-  const values = tiles.sort((b1, b2) => b1.id - b2.id);
+  const sortedTiles = tiles.sort((t1, t2) => t1.id - t2.id);
   return (
     <div className="tileContainer">
-      <TilesList values={values} />
+      <TilesList tiles={sortedTiles} />
     </div>
   );
 };

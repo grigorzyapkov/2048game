@@ -1,10 +1,11 @@
 import React, { memo } from "react";
-import { Value } from "../Interfaces";
+import { TileType, Value } from "../Interfaces";
 
 import "./BoardTile.scss";
 
 interface TileProps {
   value: Value;
+  type: TileType
   x: number;
   y: number;
 }
@@ -16,7 +17,7 @@ export const BoardTile = memo((props: TileProps) => {
       className={`tile tile-${props.value}`}
       style={{ transform: `translate(${props.x}px, ${props.y}px)` }}
     >
-      <div className="tileInner">{props.value}</div>
+      <div className={`tileInner ${props.type}`}>{props.value}</div>
     </div>
   );
 });
