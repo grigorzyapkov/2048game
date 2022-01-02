@@ -92,7 +92,7 @@ export const Board = () => {
 
   return (
     <BoardContainer>
-      {isGameOver(merge(tiles)[0]) && <GameOverContainer />}
+      {isGameOver(merge(tiles)) && <GameOverContainer />}
       <BoardGrid />
       <TileContainer />
     </BoardContainer>

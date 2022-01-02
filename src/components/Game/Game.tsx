@@ -19,7 +19,7 @@ import { IGameContext, MoveKeyCode, Tile } from "../Interfaces";
 export const GameContext = React.createContext<IGameContext>(null);
 
 export const Game = () => {
-  const { tiles, score, registerMove, restartGame } = useGameState();
+  const { tiles, registerMove, restartGame } = useGameState();
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -40,7 +40,6 @@ export const Game = () => {
     <GameContext.Provider
       value={{
         tiles,
-        score,
         restartGame,
       }}
     >
@@ -61,14 +60,12 @@ const MOVES = {
 
 const useGameState = (): {
   tiles: Tile[];
-  score: number;
   registerMove: (move: MoveKeyCode) => void;
   restartGame: () => void;
 } => {
   const [moves, setMoves] = useState<MoveKeyCode[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [tiles, setTiles] = useState<Tile[]>(generateBoard());
-  const [score, setScore] = useState<number>(0);
 
   useEffect(() => {
     if (moves.length === 0 || loading) {
@@ -78,7 +75,6 @@ const useGameState = (): {
     const move = MOVES[moves[0]];
     setMoves(moves.slice(1));
     setLoading(true);
-    console.log(moves[0]);
 
     const nextTiles: Tile[] = move(tiles);
     if (areEqual(tiles, nextTiles)) {
@@ -88,9 +84,8 @@ const useGameState = (): {
 
     setTiles(nextTiles);
     setTimeout(() => {
-      const [merged, addScore] = merge(nextTiles);
+      const merged = merge(nextTiles);
       setTiles(merged);
-      setScore(score + addScore);
 
       setTimeout(() => {
         const tiles = [...merged, generateTile(merged)];
@@ -100,16 +95,15 @@ const useGameState = (): {
     }, 100);
 
     // TODO: Should clear timeouts
-  }, [moves, loading, tiles, score]);
+  }, [moves, loading, tiles]);
 
   const restartGame = () => {
     setTiles(generateBoard());
-    setScore(0);
   };
 
   const registerMove = (move: MoveKeyCode) => {
     setMoves([...moves, move]);
   };
 
-  return { tiles, score, registerMove, restartGame };
+  return { tiles, registerMove, restartGame };
 };

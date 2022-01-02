@@ -6,6 +6,14 @@ export const areEqual = (b1: Tile[], b2: Tile[]) => {
   return b1.every((x) => b2.some((y) => areTilesEqual(x, y)));
 };
 
+export const areTilesEqual = (t1: Tile, t2: Tile): boolean => {
+  return (
+    (t1 === null && t2 === null) ||
+    ((t1 && Object.keys(t1)?.length) === (t2 && Object.keys(t2)?.length) &&
+      Object.keys(t1).every((p) => t1[p] === t2[p]))
+  );
+};
+
 export const isGameOver = (tiles: Tile[]) => {
   if (tiles.length < 16) {
     return false;
@@ -43,9 +51,8 @@ export const isGameOver = (tiles: Tile[]) => {
   return true;
 };
 
-export const merge = (tiles: Tile[]): [Tile[], number] => {
+export const merge = (tiles: Tile[]): Tile[] => {
   let id = getNextId(tiles);
-  let score = 0;
   let values: { [key: string]: Tile } = {};
 
   tiles.forEach((v) => {
@@ -53,13 +60,12 @@ export const merge = (tiles: Tile[]): [Tile[], number] => {
     if (values[key]) {
       const value = parseInt(v.value) * 2;
       values[key] = { ...v, id: id++, value: value.toString() as Value };
-      score += value;
     } else {
       values[key] = v;
     }
   });
 
-  return [Object.values(values), score];
+  return Object.values(values);
 };
 
 export const moveRight = (tiles: Tile[]): Tile[] => {
@@ -196,12 +202,4 @@ export const getNextId = (tiles: Tile[]): number => {
 // Returns the maximum id of the given tiles.
 const getMaxId = (tiles: Tile[]): number => {
   return Math.max.apply(Math, [0, ...tiles.map((x) => x.id)]);
-};
-
-const areTilesEqual = (t1: Tile, t2: Tile): boolean => {
-  return (
-    (t1 === null && t2 === null) ||
-    ((t1 && Object.keys(t1)?.length) === (t2 && Object.keys(t2)?.length) &&
-      Object.keys(t1).every((p) => t1[p] === t2[p]))
-  );
 };

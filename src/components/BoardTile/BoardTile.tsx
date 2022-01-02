@@ -10,7 +10,6 @@ interface TileProps {
 }
 
 export const BoardTile = memo((props: TileProps) => {
-  // console.log("render BoardTile: ", props);
 
   return (
     <div

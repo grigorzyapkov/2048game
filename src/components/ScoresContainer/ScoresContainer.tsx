@@ -1,17 +1,11 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import { GameContext } from "../Game/Game";
+import { Tile } from "../Interfaces";
+import { ACTIONTYPE, ScoreBoxProps, ScoresState } from "./Interfaces";
 
 import "./ScoresContainer.scss";
 
-interface ScoreBoxProps {
-  title: string;
-  score: number;
-  showAddition?: boolean;
-}
-
 const ScoreBox = (props: ScoreBoxProps) => {
-  useEffect(() => {}, [props.showAddition]);
-
   return (
     <div className="scoreBox">
       <span className="title">{props.title}</span>
@@ -21,44 +15,81 @@ const ScoreBox = (props: ScoreBoxProps) => {
 };
 
 export const ScoresContainer = () => {
-  const { score } = useContext(GameContext);
-  const prevScore = usePrevious(score);
+  const { tiles } = useContext(GameContext);
+  const [state, dispatch] = useReducer(stateReducer, initState(tiles));
 
   useEffect(() => {
+    dispatch({ type: "change", payload: tiles });
+  }, [tiles]);
 
-    if (score === prevScore) {
-      return;
+  useEffect(() => {
+    if (state.newPoints > 0) {
+      const oldAddScore = document.getElementById("additionScore");
+      oldAddScore.innerText = `+${state.newPoints}`;
+      const newAddScore = oldAddScore.cloneNode(true);
+      oldAddScore.parentNode.replaceChild(newAddScore, oldAddScore);
     }
-    const diff = score - prevScore;
-    const div = document.createElement("div");
-    div.id = "additionScore";
-    div.classList.add("addScore");
-    div.innerText = `+${diff}`;
-
-    const currentScoreBox = document.getElementById("currentScoreBox");
-    if (currentScoreBox.childElementCount === 2) {
-      currentScoreBox.replaceChild(div, currentScoreBox.lastChild);
-    }else {
-      currentScoreBox.appendChild(div);
-    }
-  }, [score, prevScore]);
+  }, [state]);
 
   return (
     <div className="scoresContainer">
-      <div id="currentScoreBox" style={{ position: "relative" }}>
-        <ScoreBox title="SCORE" score={score} />
-        {/* <div id="additionScore" className="addScore">{`+${addScore}`}</div> */}
+      <div style={{ position: "relative" }}>
+        <ScoreBox title="SCORE" score={state.score} />
+        <div className="addScore" id="additionScore"></div>
       </div>
 
-      <ScoreBox title="BEST" score={score} />
+      <ScoreBox title="BEST" score={state.score} />
     </div>
   );
 };
 
-const usePrevious = (value: number): number => {
-  const ref = useRef<number>(0);
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
+const initState = (tiles: Tile[]): ScoresState => {
+  return {
+    score: 0,
+    newPoints: 0,
+    tiles,
+  };
+};
+
+const containsTile = (tiles: Tile[], tile: Tile): boolean => {
+  return tiles.some((t) => t.id === tile.id);
+};
+
+const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
+  switch (action.type) {
+    case "change": {
+      const tiles = action.payload;
+
+      // handles restart
+      if (
+        tiles.length === 2 &&
+        [1, 2].every((id) => tiles.find((tile) => tile.id === id)) &&
+        !state.tiles.every((t) => containsTile(tiles, t))
+      ) {
+        return initState(tiles);
+      }
+
+      // handles add new tile
+      if (
+        state.tiles.every((t) => containsTile(tiles, t)) &&
+        tiles.length === state.tiles.length + 1
+      ) {
+        return { ...state, tiles: tiles, newPoints: 0 };
+      }
+
+      // handles merge
+      const newPoints = tiles.reduce((acc: number, curr: Tile) => {
+        return acc + (containsTile(state.tiles, curr) ? 0 : parseInt(curr.value));
+      }, 0);
+
+      return {
+        tiles: tiles,
+        newPoints,
+        score: state.score + newPoints,
+      };
+    }
+    default: {
+      throw new Error(`Unhandled action type: ${action.type}`);
+    }
+  }
+};

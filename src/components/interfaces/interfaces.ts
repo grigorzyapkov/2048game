@@ -14,7 +14,6 @@ export interface Tile {
 }
 
 export interface IGameContext {
-  score: number;
   tiles: Tile[];
   restartGame: () => void;
 }
