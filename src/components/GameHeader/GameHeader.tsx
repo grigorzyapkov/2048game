@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import Button from "../Button";
-import { GameContext } from "../Game/Game";
+import { useGameContext } from "../Game";
 import ScoresContainer from "../ScoresContainer";
 
 import "./GameHeader.scss";
@@ -18,7 +18,7 @@ const ShortDescription = () => {
 };
 
 export const GameHeader = () => {
-  const { restartGame: handleRestart } = useContext(GameContext);
+  const { dispatch } = useGameContext();
 
   return (
     <div className="header">
@@ -28,7 +28,10 @@ export const GameHeader = () => {
       </div>
       <div className="actions">
         <ScoresContainer />
-        <Button id="restartGameBtn" onClick={(_) => handleRestart()}>
+        <Button
+          id="restartGameBtn"
+          onClick={(_) => dispatch({ type: "restart" })}
+        >
           New Game
         </Button>
       </div>

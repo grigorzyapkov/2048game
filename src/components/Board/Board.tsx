@@ -1,8 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ScreenSizeBreakpoint, TilesScreenTransformFactor } from "../../constants/constants";
+import React, { useEffect, useState } from "react";
+import {
+  ScreenSizeBreakpoint,
+  TilesScreenTransformFactor,
+} from "../../constants/constants";
 import { isGameOver, merge } from "../../utils/gameUtils";
 import Button from "../Button";
-import { GameContext } from "../Game/Game";
+import { useGameContext } from "../Game/Game";
 import { Tile, TransformFactor } from "../Interfaces";
 import BoardTile from "../BoardTile";
 
@@ -13,12 +16,12 @@ const BoardContainer = (props: { children: React.ReactNode }) => {
 };
 
 const GameOverContainer = () => {
-  const { restartGame: handleRestart } = useContext(GameContext);
+  const { dispatch } = useGameContext();
 
   return (
     <div id="gameOverContainer" className="gameOverContainer">
       <p>Game Over!</p>
-      <Button onClick={handleRestart}>Try again</Button>
+      <Button onClick={(_) => dispatch({ type: "restart" })}>Try again</Button>
     </div>
   );
 };
@@ -39,15 +42,15 @@ const BoardGrid = () => {
 };
 
 const calcFactor = () => {
-  if(window.innerWidth <= ScreenSizeBreakpoint.XS){
+  if (window.innerWidth <= ScreenSizeBreakpoint.XS) {
     return TilesScreenTransformFactor.XS;
   }
-  if(window.innerWidth <= ScreenSizeBreakpoint.S){
+  if (window.innerWidth <= ScreenSizeBreakpoint.S) {
     return TilesScreenTransformFactor.S;
   }
 
   return TilesScreenTransformFactor.M;
-}
+};
 
 const TilesList = (props: { tiles: Tile[] }) => {
   const [factor, setFactor] = useState<TransformFactor>(calcFactor());
@@ -78,7 +81,7 @@ const TilesList = (props: { tiles: Tile[] }) => {
 };
 
 const TileContainer = () => {
-  const { tiles } = useContext(GameContext);
+  const { tiles } = useGameContext();
 
   const sortedTiles = tiles.sort((t1, t2) => t1.id - t2.id);
   return (
@@ -89,7 +92,7 @@ const TileContainer = () => {
 };
 
 export const Board = () => {
-  const { tiles } = useContext(GameContext);
+  const { tiles } = useGameContext();
 
   return (
     <BoardContainer>

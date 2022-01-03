@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { getMaxId } from "../../utils/gameUtils";
-import { GameContext } from "../Game/Game";
+import { useGameContext } from "../Game/Game";
 import { Tile } from "../Interfaces";
 import { ACTIONTYPE, ScoreBoxProps, ScoresState } from "./Interfaces";
 
@@ -16,9 +16,10 @@ const ScoreBox = (props: ScoreBoxProps) => {
 };
 
 export const ScoresContainer = () => {
-  const { tiles } = useContext(GameContext);
+  const { tiles } = useGameContext();
   const [state, dispatch] = useReducer(stateReducer, initState(tiles));
 
+  
   useEffect(() => {
     dispatch({ type: "change", payload: tiles });
   }, [tiles]);

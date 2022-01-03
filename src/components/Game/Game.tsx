@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import GameContainer from "../GameContainer";
 import Board from "../Board";
 
@@ -14,18 +14,58 @@ import {
   moveUp,
 } from "../../utils/gameUtils";
 import GameHeader from "../GameHeader";
-import { IGameContext, MoveKeyCode, Tile } from "../Interfaces";
+import {
+  GameContextActionType,
+  GameState,
+  IGameContext,
+  MoveKeyCode,
+  Tile,
+} from "../Interfaces";
 
-export const GameContext = React.createContext<IGameContext>(null);
+const GameContext = React.createContext<IGameContext>(null);
 
-export const Game = () => {
-  const { tiles, registerMove, restartGame } = useGameState();
+const initState = (tilesCount = 2): GameState => {
+  return {
+    tiles: generateBoard(tilesCount),
+    moves: [],
+    loading: false,
+  };
+};
+
+function gameReducer(state: GameState, action: GameContextActionType) {
+  switch (action.type) {
+    case "restart": {
+      return initState();
+    }
+    case "addMove": {
+      return { ...state, moves: [...state.moves, action.payload] };
+    }
+    case "startMove": {
+      return { ...state, moves: state.moves.slice(1), loading: true };
+    }
+    case "move": {
+      return { ...state, tiles: action.payload };
+    }
+    case "endMove": {
+      const tiles = action.payload
+        ? [...action.payload, createRandomTile(action.payload)]
+        : state.tiles;
+      return { ...state, tiles, loading: false };
+    }
+    default: {
+      throw new Error(`Unhandled action: ${action}`);
+    }
+  }
+}
+
+const GameProvider = (props) => {
+  const [state, dispatch] = useReducer(gameReducer, initState());
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       e.preventDefault();
       if (["ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft"].includes(e.key)) {
-        registerMove(e.key as MoveKeyCode);
+        dispatch({ type: "addMove", payload: e.key as MoveKeyCode });
       }
     };
 
@@ -34,20 +74,48 @@ export const Game = () => {
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, [registerMove]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (state.moves.length === 0 || state.loading) {
+      return;
+    }
+
+    const move = MOVES[state.moves[0]];
+    dispatch({ type: "startMove" });
+
+    const nextTiles: Tile[] = move(state.tiles);
+    if (areEqual(state.tiles, nextTiles)) {
+      dispatch({ type: "endMove" });
+      return;
+    }
+
+    dispatch({ type: "move", payload: nextTiles });
+    setTimeout(() => {
+      dispatch({
+        type: "endMove",
+        payload: merge(nextTiles),
+      });
+    }, 100);
+
+    // TODO: Should clear timeouts
+  }, [state]);
 
   return (
-    <GameContext.Provider
-      value={{
-        tiles,
-        restartGame,
-      }}
-    >
+    <GameContext.Provider value={{ tiles: state.tiles, dispatch }}>
+      {props.children}
+    </GameContext.Provider>
+  );
+};
+
+const Game = () => {
+  return (
+    <GameProvider>
       <GameContainer>
         <GameHeader />
         <Board />
       </GameContainer>
-    </GameContext.Provider>
+    </GameProvider>
   );
 };
 
@@ -58,47 +126,12 @@ const MOVES = {
   ArrowLeft: moveLeft,
 };
 
-const useGameState = (): {
-  tiles: Tile[];
-  registerMove: (move: MoveKeyCode) => void;
-  restartGame: () => void;
-} => {
-  const [moves, setMoves] = useState<MoveKeyCode[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [tiles, setTiles] = useState<Tile[]>(generateBoard());
+function useGameContext() {
+  const context = useContext(GameContext);
+  if (context === undefined) {
+    throw new Error("useGameContext must be used within a GameContextProvider");
+  }
+  return context;
+}
 
-  useEffect(() => {
-    if (moves.length === 0 || loading) {
-      return;
-    }
-
-    const move = MOVES[moves[0]];
-    setMoves(moves.slice(1));
-    setLoading(true);
-
-    const nextTiles: Tile[] = move(tiles);
-    if (areEqual(tiles, nextTiles)) {
-      setLoading(false);
-      return;
-    }
-
-    setTiles(nextTiles);
-    setTimeout(() => {
-      const merged = merge(nextTiles);
-      setTiles([...merged, createRandomTile(merged)]);
-      setLoading(false);
-    }, 100);
-
-    // TODO: Should clear timeouts
-  }, [moves, loading, tiles]);
-
-  const restartGame = () => {
-    setTiles(generateBoard());
-  };
-
-  const registerMove = (move: MoveKeyCode) => {
-    setMoves([...moves, move]);
-  };
-
-  return { tiles, registerMove, restartGame };
-};
+export { Game, useGameContext };

@@ -1,1 +1,1 @@
-export { Game as default } from "./Game";
+export { Game as default, useGameContext } from "./Game";

@@ -1,4 +1,17 @@
-export type Value = "2" | "4" | "8" | "16" | "32" | "64" | "128" | "256" | "512" | "1024" | "2048";
+import { Dispatch } from "react";
+
+export type Value =
+  | "2"
+  | "4"
+  | "8"
+  | "16"
+  | "32"
+  | "64"
+  | "128"
+  | "256"
+  | "512"
+  | "1024"
+  | "2048";
 
 export type TransformFactor = 121 | 97 | 73;
 
@@ -16,7 +29,21 @@ export interface Tile {
   positionY: number;
 }
 
+export type GameContextActionType =
+  | { type: "restart" }
+  | { type: "addMove"; payload: MoveKeyCode }
+  | { type: "startMove" }
+  | { type: "move", payload: Tile[] }
+  | { type: "endMove"; payload?: Tile[] };
+
+export interface GameState {
+  tiles: Tile[];
+  moves: MoveKeyCode[];
+  loading: boolean;
+}
+
 export interface IGameContext {
   tiles: Tile[];
-  restartGame: () => void;
+  dispatch: Dispatch<GameContextActionType>;
+  // restartGame: () => void;
 }
