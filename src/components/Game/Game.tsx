@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useReducer } from "react";
-import GameContainer from "../GameContainer";
 import Board from "../Board";
 
 import "./Game.scss";
@@ -41,7 +40,10 @@ function gameReducer(state: GameState, action: GameContextActionType) {
       }
 
       tiles = merge(tiles);
-      return { tiles: [...tiles, createRandomTile(tiles)], lastMove: action.payload };
+      return {
+        tiles: [...tiles, createRandomTile(tiles)],
+        lastMove: action.payload,
+      };
     }
     default: {
       throw new Error(`Unhandled action: ${action}`);
@@ -77,10 +79,10 @@ const GameProvider = (props) => {
 const Game = () => {
   return (
     <GameProvider>
-      <GameContainer>
+      <div className="gameContainer">
         <GameHeader />
         <Board />
-      </GameContainer>
+      </div>
     </GameProvider>
   );
 };
