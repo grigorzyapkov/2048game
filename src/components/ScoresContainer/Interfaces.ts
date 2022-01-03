@@ -7,8 +7,3 @@ export interface ScoresState {
   newPoints: number;
   tiles: Tile[];
 }
-
-export interface ScoreBoxProps {
-  title: string;
-  score: number;
-}

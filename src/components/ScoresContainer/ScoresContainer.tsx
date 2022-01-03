@@ -2,18 +2,10 @@ import React, { useEffect, useReducer } from "react";
 import { getMaxId } from "../../utils/gameUtils";
 import { useGameContext } from "../Game/Game";
 import { Tile } from "../Interfaces";
-import { ACTIONTYPE, ScoreBoxProps, ScoresState } from "./Interfaces";
+import ScoreBox from "../ScoreBox";
+import { ACTIONTYPE, ScoresState } from "./Interfaces";
 
 import "./ScoresContainer.scss";
-
-const ScoreBox = (props: ScoreBoxProps) => {
-  return (
-    <div className="scoreBox">
-      <span className="title">{props.title}</span>
-      <span className="score">{props.score}</span>
-    </div>
-  );
-};
 
 export const ScoresContainer = () => {
   const { gameState } = useGameContext();

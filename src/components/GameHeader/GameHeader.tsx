@@ -7,7 +7,7 @@ import "./GameHeader.scss";
 
 const GameTitle = () => <span className="gameTitle">2048</span>;
 
-const ShortDescription = () => {
+const GameDescription = () => {
   return (
     <div>
       <span>Join the tiles, get to 2048!</span>
@@ -24,7 +24,7 @@ export const GameHeader = () => {
     <div className="header">
       <div className="centeredText">
         <GameTitle />
-        <ShortDescription />
+        <GameDescription />
       </div>
       <div className="actions">
         <ScoresContainer />
