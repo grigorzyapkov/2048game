@@ -16,13 +16,13 @@ const ScoreBox = (props: ScoreBoxProps) => {
 };
 
 export const ScoresContainer = () => {
-  const { tiles } = useGameContext();
-  const [state, dispatch] = useReducer(stateReducer, initState(tiles));
+  const { gameState } = useGameContext();
+  const [state, dispatch] = useReducer(stateReducer, initState(gameState.tiles));
 
   
   useEffect(() => {
-    dispatch({ type: "change", payload: tiles });
-  }, [tiles]);
+    dispatch({ type: "change", payload: gameState.tiles });
+  }, [gameState]);
 
   useEffect(() => {
     if (state.newPoints > 0) {

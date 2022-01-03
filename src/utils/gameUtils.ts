@@ -204,3 +204,10 @@ export const getNextId = (tiles: Tile[]): number => {
 export const getMaxId = (tiles: Tile[]): number => {
   return Math.max.apply(Math, [0, ...tiles.map((x) => x.id)]);
 };
+
+export const MOVES_MAP = {
+  ArrowUp: moveUp,
+  ArrowDown: moveDown,
+  ArrowRight: moveRight,
+  ArrowLeft: moveLeft,
+};

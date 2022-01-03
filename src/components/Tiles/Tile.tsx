@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { TileType, Value } from "../Interfaces";
 
-import "./BoardTile.scss";
+import "./Tile.scss";
 
 interface TileProps {
   value: Value;
@@ -10,7 +10,7 @@ interface TileProps {
   y: number;
 }
 
-export const BoardTile = memo((props: TileProps) => {
+const Tile = memo((props: TileProps) => {
 
   return (
     <div
@@ -21,3 +21,5 @@ export const BoardTile = memo((props: TileProps) => {
     </div>
   );
 });
+
+export default Tile;

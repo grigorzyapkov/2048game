@@ -31,19 +31,15 @@ export interface Tile {
 
 export type GameContextActionType =
   | { type: "restart" }
-  | { type: "addMove"; payload: MoveKeyCode }
-  | { type: "startMove" }
-  | { type: "move", payload: Tile[] }
-  | { type: "endMove"; payload?: Tile[] };
+  | { type: "move"; payload: MoveKeyCode };
 
 export interface GameState {
   tiles: Tile[];
-  moves: MoveKeyCode[];
-  loading: boolean;
+  lastMove: MoveKeyCode;
 }
 
 export interface IGameContext {
-  tiles: Tile[];
+  gameState: GameState;
   dispatch: Dispatch<GameContextActionType>;
   // restartGame: () => void;
 }

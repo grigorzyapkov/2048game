@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from "react";
-import {
-  ScreenSizeBreakpoint,
-  TilesScreenTransformFactor,
-} from "../../constants/constants";
-import { isGameOver, merge } from "../../utils/gameUtils";
-import Button from "../Button";
+import React, { useEffect, useReducer } from "react";
+import { isGameOver, MOVES_MAP } from "../../utils/gameUtils";
 import { useGameContext } from "../Game/Game";
-import { Tile, TransformFactor } from "../Interfaces";
-import BoardTile from "../BoardTile";
+import { GameState, Tile } from "../Interfaces";
+import Tiles from "../Tiles";
 
 import "./Board.scss";
+import GameOver from "./GameOver";
+import { BoardActionType, BoardState } from "./Interfaces";
 
-const BoardContainer = (props: { children: React.ReactNode }) => {
-  return <div className="boardContainer">{props.children}</div>;
-};
-
-const GameOverContainer = () => {
-  const { dispatch } = useGameContext();
-
+const Board = (props: { tiles: Tile[] }) => {
   return (
-    <div id="gameOverContainer" className="gameOverContainer">
-      <p>Game Over!</p>
-      <Button onClick={(_) => dispatch({ type: "restart" })}>Try again</Button>
+    <div className="boardContainer">
+      {isGameOver(props.tiles) && <GameOver />}
+      <BoardGrid />
+      <Tiles tiles={props.tiles} />
     </div>
   );
 };
@@ -41,64 +33,68 @@ const BoardGrid = () => {
   return <div className="gridContainer">{grid}</div>;
 };
 
-const calcFactor = () => {
-  if (window.innerWidth <= ScreenSizeBreakpoint.XS) {
-    return TilesScreenTransformFactor.XS;
-  }
-  if (window.innerWidth <= ScreenSizeBreakpoint.S) {
-    return TilesScreenTransformFactor.S;
-  }
+export const BoardContainer = () => {
+  const { gameState } = useGameContext();
 
-  return TilesScreenTransformFactor.M;
-};
-
-const TilesList = (props: { tiles: Tile[] }) => {
-  const [factor, setFactor] = useState<TransformFactor>(calcFactor());
+  const [boardState, dispatch] = useReducer(boardReducer, initState());
 
   useEffect(() => {
-    const handleResize = () => {
-      setFactor(calcFactor());
-    };
+    dispatch({ type: "addMove", payload: gameState });
+  }, [gameState]);
 
-    window.addEventListener("resize", handleResize);
+  useEffect(() => {
+    if (boardState.moves.length < 2 || boardState.loading) {
+      return;
+    }
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    dispatch({ type: "startMove" });
 
-  return (
-    <div>
-      {props.tiles.map((x) => (
-        <BoardTile
-          key={x.id}
-          value={x.value}
-          type={x.type}
-          x={x.positionY * factor}
-          y={x.positionX * factor}
-        />
-      ))}
-    </div>
-  );
+    setTimeout(() => {
+      dispatch({
+        type: "endMove",
+      });
+    }, 100);
+
+    // TODO: Should clear timeouts
+  }, [boardState]);
+
+  return <Board tiles={boardState.tiles} />;
 };
 
-const TileContainer = () => {
-  const { tiles } = useGameContext();
+function boardReducer(state: BoardState, action: BoardActionType): BoardState {
+  switch (action.type) {
+    case "addMove": {
+      const isNewGame = !action.payload.lastMove;
+      if (isNewGame) {
+        return initState(action.payload.tiles, [action.payload]);
+      }
 
-  const sortedTiles = tiles.sort((t1, t2) => t1.id - t2.id);
-  return (
-    <div className="tileContainer">
-      <TilesList tiles={sortedTiles} />
-    </div>
-  );
-};
+      return {
+        ...state,
+        moves: [...state.moves, action.payload],
+      };
+    }
+    case "startMove": {
+      const currGameState = state.moves[0];
+      const nextGameState = state.moves[1];
+      const tiles = MOVES_MAP[nextGameState.lastMove](currGameState.tiles);
 
-export const Board = () => {
-  const { tiles } = useGameContext();
+      return { ...state, loading: true, tiles };
+    }
+    case "endMove": {
+      const nextGameState = state.moves[1];
+      return {
+        moves: state.moves.slice(1),
+        loading: false,
+        tiles: nextGameState.tiles,
+      };
+    }
+    default: {
+      throw new Error(`Unhandled action: ${action}`);
+    }
+  }
+}
 
-  return (
-    <BoardContainer>
-      {isGameOver(merge(tiles)) && <GameOverContainer />}
-      <BoardGrid />
-      <TileContainer />
-    </BoardContainer>
-  );
+const initState = (tiles: Tile[] = [], moves: GameState[] = []): BoardState => {
+  return { moves, loading: false, tiles };
 };
