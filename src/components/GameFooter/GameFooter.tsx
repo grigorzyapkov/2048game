@@ -3,7 +3,7 @@ import { SectionProps } from "./Interfaces";
 
 const Section = (props: SectionProps) => {
   return (
-    <div>
+    <div id={props.id}>
       <h4>{props.title}</h4>
       {props.children}
       {props.bottomSeparator ? <hr /> : null}
@@ -13,7 +13,7 @@ const Section = (props: SectionProps) => {
 
 const GameRules = (props: { bottomSeparator?: boolean }) => {
   return (
-    <Section title="HOW TO PLAY" bottomSeparator={props.bottomSeparator}>
+    <Section id="howToPlaySection" title="HOW TO PLAY" bottomSeparator={props.bottomSeparator}>
       <p>
         Use your arrow keys to move the numbers. The same numbers will be merged
         into one when they touch. After each move, a new number (<strong>2</strong> or <strong>4</strong>) is

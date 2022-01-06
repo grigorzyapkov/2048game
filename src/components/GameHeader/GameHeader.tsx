@@ -12,7 +12,7 @@ const GameDescription = () => {
     <div>
       <span>Join the numbers to get <b>2048</b>!</span>
       <br />
-      <a href="#id">How to play →</a>
+      <a href="#howToPlaySection">How to play →</a>
     </div>
   );
 };
