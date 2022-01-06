@@ -17,6 +17,7 @@ import {
   MoveKeyCode,
   Tile,
 } from "../Interfaces";
+import GameFooter from "../GameFooter";
 
 const GameContext = React.createContext<IGameContext>(null);
 
@@ -79,9 +80,12 @@ const GameProvider = (props) => {
 const Game = () => {
   return (
     <GameProvider>
-      <div className="gameContainer">
-        <GameHeader />
-        <Board />
+      <div className="container">
+        <div className="gameContainer">
+          <GameHeader />
+          <Board />
+        </div>
+          <GameFooter />
       </div>
     </GameProvider>
   );

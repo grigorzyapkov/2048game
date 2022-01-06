@@ -10,7 +10,7 @@ const GameTitle = () => <span className="gameTitle">2048</span>;
 const GameDescription = () => {
   return (
     <div>
-      <span>Join the tiles, get to 2048!</span>
+      <span>Join the numbers to get <b>2048</b>!</span>
       <br />
       <a href="#id">How to play →</a>
     </div>
@@ -22,7 +22,7 @@ export const GameHeader = () => {
 
   return (
     <div className="header">
-      <div className="centeredText">
+      <div className="gameIntro">
         <GameTitle />
         <GameDescription />
       </div>
