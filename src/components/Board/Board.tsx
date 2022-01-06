@@ -1,17 +1,31 @@
 import React, { useEffect, useReducer } from "react";
-import { isGameOver, MOVES_MAP } from "../../utils/gameUtils";
+import { isGameOver, isGameWon, MOVES_MAP } from "../../utils/gameUtils";
 import { useGameContext } from "../Game/Game";
 import { GameState, Tile } from "../Interfaces";
 import Tiles from "../Tiles";
 
 import "./Board.scss";
-import GameOver from "./GameOver";
-import { BoardActionType, BoardState } from "./Interfaces";
+import GameResult from "./GameResult";
+import { BoardActionType, BoardState, GameStatus } from "./Interfaces";
+
+const getGameStatus = (tiles: Tile[]): GameStatus => {
+  if (isGameWon(tiles)) {
+    return "WIN";
+  }
+  if (isGameOver(tiles)) {
+    return "GAME_OVER";
+  }
+
+  return "IN_PROGRESS";
+};
 
 const Board = (props: { tiles: Tile[] }) => {
+
+  const status = getGameStatus(props.tiles);
+
   return (
     <div className="boardContainer">
-      {isGameOver(props.tiles) && <GameOver />}
+      {status !== "IN_PROGRESS" && <GameResult isWon={status === "WIN"} />}
       <BoardGrid />
       <Tiles tiles={props.tiles} />
     </div>

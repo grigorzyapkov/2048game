@@ -14,6 +14,10 @@ export const areTilesEqual = (t1: Tile, t2: Tile): boolean => {
   );
 };
 
+export const isGameWon = (tiles: Tile[]) => {
+  return tiles.some(tile => tile.value === "2048");
+}
+
 export const isGameOver = (tiles: Tile[]) => {
   if (tiles.length < 16) {
     return false;
