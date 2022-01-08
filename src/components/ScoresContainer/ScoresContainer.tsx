@@ -42,7 +42,7 @@ export const ScoresContainer = () => {
   );
 };
 
-const initState = (tiles: Tile[]= []): ScoresState => {
+const initState = (tiles: Tile[] = []): ScoresState => {
   return {
     score: 0,
     newPoints: 0,
@@ -61,7 +61,10 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
       const tiles = action.payload;
 
       // handles page refresh
-      if(state.tiles.length === tiles.length && state.tiles.every(t => containsTile(tiles, t))){
+      if (
+        state.tiles.length === tiles.length &&
+        state.tiles.every((t) => containsTile(tiles, t))
+      ) {
         return state;
       }
 
@@ -88,7 +91,7 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
         const add =
           curr.id === lastGeneratedTileId || containsTile(state.tiles, curr)
             ? 0
-            : parseInt(curr.value);
+            : curr.value;
         return acc + add;
       }, 0);
 

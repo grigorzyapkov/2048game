@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from "react";
+import React, { useContext, useEffect } from "react";
 import Board from "../Board";
 
 import "./Game.scss";

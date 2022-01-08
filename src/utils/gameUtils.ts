@@ -15,8 +15,8 @@ export const areTilesEqual = (t1: Tile, t2: Tile): boolean => {
 };
 
 export const isGameWon = (tiles: Tile[]) => {
-  return tiles.some(tile => tile.value === "2048");
-}
+  return tiles.some((tile) => tile.value === 2048);
+};
 
 export const isGameOver = (tiles: Tile[]) => {
   if (tiles.length < 16) {
@@ -62,8 +62,8 @@ export const merge = (tiles: Tile[]): Tile[] => {
   tiles.forEach((v) => {
     const key = `${v.positionX}${v.positionY}`;
     if (values[key]) {
-      const value = parseInt(v.value) * 2;
-      values[key] = { ...v, id: id++, value: value.toString() as Value, type: "merged" };
+      const value = (v.value * 2) as Value;
+      values[key] = { ...v, id: id++, value, type: "merged" };
     } else {
       values[key] = v;
     }
@@ -132,7 +132,7 @@ const shift = (
   direction === "left" && result.reverse();
   let i = result.length - 1;
   while (i >= 1) {
-    if (result[i].value === result[i - 1].value && result[i].value !== "2048") {
+    if (result[i].value === result[i - 1].value && result[i].value !== 2048) {
       for (let j = 0; j <= i - 1; j++) {
         const shift = direction === "right" ? 1 : -1;
         setColumn(result[j], getColumn(result[j]) + shift);
@@ -149,13 +149,13 @@ const shift = (
 
 export const generateBoard = (tilesCount: number = 2): Tile[] => {
   let tiles = [];
-  while(tilesCount > 0){
+  while (tilesCount > 0) {
     tiles = [...tiles, createRandomTile(tiles)];
     tilesCount--;
   }
 
   return tiles;
-}
+};
 
 export const createRandomTile = (tiles: Tile[]): Tile => {
   const getCoordinates = (position: number): [number, number] => {
@@ -173,7 +173,7 @@ export const createRandomTile = (tiles: Tile[]): Tile => {
     coordinates = getCoordinates(position);
   }
 
-  const value: Value = Math.random() <= 0.2 ? "4" : "2";
+  const value: Value = Math.random() <= 0.2 ? 4 : 2;
 
   return {
     id: getNextId(tiles),
