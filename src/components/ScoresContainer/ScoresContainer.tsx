@@ -13,7 +13,7 @@ export const ScoresContainer = () => {
 
   const [state, dispatch] = useGameLocalStorage(
     "scores",
-    initState(gameState.tiles),
+    initState(),
     stateReducer
   );
 
@@ -42,7 +42,7 @@ export const ScoresContainer = () => {
   );
 };
 
-const initState = (tiles: Tile[]): ScoresState => {
+const initState = (tiles: Tile[]= []): ScoresState => {
   return {
     score: 0,
     newPoints: 0,
@@ -59,6 +59,11 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
   switch (action.type) {
     case "change": {
       const tiles = action.payload;
+
+      // handles page refresh
+      if(state.tiles.length === tiles.length && state.tiles.every(t => containsTile(tiles, t))){
+        return state;
+      }
 
       // handles restart
       if (
