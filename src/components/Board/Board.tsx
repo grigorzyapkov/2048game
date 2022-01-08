@@ -20,7 +20,7 @@ const getGameStatus = (tiles: Tile[]): GameStatus => {
 };
 
 const Board = (props: { tiles: Tile[] }) => {
-
+  
   const status = getGameStatus(props.tiles);
 
   return (
@@ -51,7 +51,7 @@ export const BoardContainer = () => {
   const { gameState } = useGameContext();
 
   const [boardState, dispatch] = useReducer(boardReducer, initState());
-
+  
   useEffect(() => {
     dispatch({ type: "addMove", payload: gameState });
   }, [gameState]);
@@ -79,8 +79,8 @@ function boardReducer(state: BoardState, action: BoardActionType): BoardState {
   switch (action.type) {
     case "addMove": {
       const isNewGame = !action.payload.lastMove;
-      if (isNewGame) {
-        return initState(action.payload.tiles, [action.payload]);
+      if (isNewGame || state.tiles.length === 0) {
+        return initState(action.payload);
       }
 
       return {
@@ -109,6 +109,9 @@ function boardReducer(state: BoardState, action: BoardActionType): BoardState {
   }
 }
 
-const initState = (tiles: Tile[] = [], moves: GameState[] = []): BoardState => {
-  return { moves, loading: false, tiles };
+const initState = (gameState?: GameState): BoardState => {
+  if (gameState) {
+    return { moves: [gameState], loading: false, tiles: gameState.tiles };
+  }
+  return { moves: [], loading: false, tiles: [] };
 };

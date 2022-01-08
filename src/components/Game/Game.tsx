@@ -18,6 +18,7 @@ import {
   Tile,
 } from "../Interfaces";
 import GameFooter from "../GameFooter";
+import useGameLocalStorage from "../../hooks/useLocalStorage";
 
 const GameContext = React.createContext<IGameContext>(null);
 
@@ -53,7 +54,8 @@ function gameReducer(state: GameState, action: GameContextActionType) {
 }
 
 const GameProvider = (props) => {
-  const [state, dispatch] = useReducer(gameReducer, initState());
+
+  const [state, dispatch] = useGameLocalStorage("game", initState(), gameReducer);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {

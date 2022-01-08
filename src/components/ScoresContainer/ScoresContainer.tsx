@@ -1,4 +1,5 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect } from "react";
+import useGameLocalStorage from "../../hooks/useLocalStorage";
 import { getMaxId } from "../../utils/gameUtils";
 import { useGameContext } from "../Game/Game";
 import { Tile } from "../Interfaces";
@@ -9,12 +10,16 @@ import "./ScoresContainer.scss";
 
 export const ScoresContainer = () => {
   const { gameState } = useGameContext();
-  const [state, dispatch] = useReducer(stateReducer, initState(gameState.tiles));
 
-  
+  const [state, dispatch] = useGameLocalStorage(
+    "scores",
+    initState(gameState.tiles),
+    stateReducer
+  );
+
   useEffect(() => {
     dispatch({ type: "change", payload: gameState.tiles });
-  }, [gameState]);
+  }, [gameState.tiles, dispatch]);
 
   useEffect(() => {
     if (state.newPoints > 0) {
@@ -32,7 +37,7 @@ export const ScoresContainer = () => {
         <div className="addScore" id="additionScore"></div>
       </div>
 
-      <ScoreBox title="BEST" score={state.score} />
+      <ScoreBox title="BEST" score={state.bestScore} />
     </div>
   );
 };
@@ -41,6 +46,7 @@ const initState = (tiles: Tile[]): ScoresState => {
   return {
     score: 0,
     newPoints: 0,
+    bestScore: 0,
     tiles,
   };
 };
@@ -60,7 +66,7 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
         [1, 2].every((id) => tiles.find((tile) => tile.id === id)) &&
         !state.tiles.every((t) => containsTile(tiles, t))
       ) {
-        return initState(tiles);
+        return { ...initState(tiles), bestScore: state.bestScore };
       }
 
       // handles add new tile
@@ -81,11 +87,10 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
         return acc + add;
       }, 0);
 
-      return {
-        tiles: tiles,
-        newPoints,
-        score: state.score + newPoints,
-      };
+      const score = state.score + newPoints;
+      const bestScore = Math.max(score, state.bestScore);
+
+      return { tiles, newPoints, score, bestScore };
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);

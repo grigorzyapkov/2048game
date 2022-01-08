@@ -41,5 +41,4 @@ export interface GameState {
 export interface IGameContext {
   gameState: GameState;
   dispatch: Dispatch<GameContextActionType>;
-  // restartGame: () => void;
 }
