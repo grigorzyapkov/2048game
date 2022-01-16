@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import useGameLocalStorage from "../../hooks/useLocalStorage";
-import { getMaxId } from "../../utils/gameUtils";
+import { getMaxId } from "../../utils/boardUtils";
 import { useGameContext } from "../Game/Game";
 import { Tile } from "../Interfaces";
 import ScoreBox from "../ScoreBox";

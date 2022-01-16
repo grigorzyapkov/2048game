@@ -8,7 +8,7 @@ import {
   generateBoard,
   merge,
   MOVES_MAP,
-} from "../../utils/gameUtils";
+} from "../../utils/boardUtils";
 import GameHeader from "../GameHeader";
 import {
   GameContextActionType,

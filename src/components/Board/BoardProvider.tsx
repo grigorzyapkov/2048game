@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from "react";
-import { MOVES_MAP } from "../../utils/gameUtils";
+import { MOVES_MAP } from "../../utils/boardUtils";
 import { useGameContext } from "../Game/Game";
 import { GameState } from "../Interfaces";
 import Board from "./Board";

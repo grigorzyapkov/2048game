@@ -1,5 +1,5 @@
 import React from "react";
-import { isGameOver, isGameWon } from "../../utils/gameUtils";
+import { isGameOver, isGameWon } from "../../utils/boardUtils";
 import { Tile } from "../Interfaces";
 import Tiles from "../Tiles";
 import GameResult from "./GameResult";
