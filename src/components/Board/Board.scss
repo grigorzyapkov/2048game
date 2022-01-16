@@ -30,7 +30,7 @@
   background: rgba(238, 228, 218, 0.75);
 }
 
-.boardContainer {
+#boardContainer {
   position: relative;
   padding-top: 15px;
   padding-left: 15px;
@@ -40,6 +40,7 @@
   width: 500px;
   height: 500px;
   box-sizing: border-box;
+  touch-action: none;
 }
 
 .gridContainer {
@@ -72,7 +73,7 @@
 }
 
 @media only screen and (max-width: 520px) {
-  .boardContainer {
+  #boardContainer {
     width: 400px;
     height: 400px;
     padding-top: 12px;
@@ -93,7 +94,7 @@
 }
 
 @media only screen and (max-width: 420px) {
-  .boardContainer {
+  #boardContainer {
     width: 300px;
     height: 300px;
     padding-top: 9px;

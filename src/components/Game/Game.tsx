@@ -14,11 +14,12 @@ import {
   GameContextActionType,
   GameState,
   IGameContext,
-  MoveKeyCode,
+  Direction,
   Tile,
 } from "../Interfaces";
 import GameFooter from "../GameFooter";
 import useGameLocalStorage from "../../hooks/useLocalStorage";
+import { KEYBOARD_ARROW_TO_DIRECTION_MAP } from "../../constants/constants";
 
 const GameContext = React.createContext<IGameContext>(null);
 
@@ -54,14 +55,20 @@ function gameReducer(state: GameState, action: GameContextActionType) {
 }
 
 const GameProvider = (props) => {
-
-  const [state, dispatch] = useGameLocalStorage("game", initState(), gameReducer);
+  const [state, dispatch] = useGameLocalStorage(
+    "game",
+    initState(),
+    gameReducer
+  );
+  console.log("GameProvider");
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       e.preventDefault();
-      if (["ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft"].includes(e.key)) {
-        dispatch({ type: "move", payload: e.key as MoveKeyCode });
+      const direction: Direction | undefined =
+        KEYBOARD_ARROW_TO_DIRECTION_MAP[e.key];
+      if (direction) {
+        dispatch({ type: "move", payload: direction });
       }
     };
 
@@ -87,7 +94,7 @@ const Game = () => {
           <GameHeader />
           <Board />
         </div>
-          <GameFooter />
+        <GameFooter />
       </div>
     </GameProvider>
   );

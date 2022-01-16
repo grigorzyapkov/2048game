@@ -209,9 +209,9 @@ export const getMaxId = (tiles: Tile[]): number => {
   return Math.max.apply(Math, [0, ...tiles.map((x) => x.id)]);
 };
 
-export const MOVES_MAP = {
-  ArrowUp: moveUp,
-  ArrowDown: moveDown,
-  ArrowRight: moveRight,
-  ArrowLeft: moveLeft,
+export const MOVES_MAP: {[key: string]: Function } = {
+  "up": moveUp,
+  "down": moveDown,
+  "right": moveRight,
+  "left": moveLeft,
 };

@@ -4,9 +4,7 @@ export type Value = 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512 | 1024 | 2048;
 
 export type TransformFactor = 121 | 97 | 73;
 
-export type MoveKeyCode = "ArrowUp" | "ArrowDown" | "ArrowRight" | "ArrowLeft";
-
-export type Direction = "right" | "left";
+export type Direction = "right" | "left" | "up" | "down";
 
 export type TileType = "merged" | "new";
 
@@ -20,11 +18,11 @@ export interface Tile {
 
 export type GameContextActionType =
   | { type: "restart" }
-  | { type: "move"; payload: MoveKeyCode };
+  | { type: "move"; payload: Direction };
 
 export interface GameState {
   tiles: Tile[];
-  lastMove: MoveKeyCode;
+  lastMove: Direction;
 }
 
 export interface IGameContext {
