@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "../../utils/utils";
 import { SectionProps } from "./Interfaces";
 
 const Section = (props: SectionProps) => {
@@ -11,15 +12,19 @@ const Section = (props: SectionProps) => {
   );
 };
 
-const GameRules = (props: { bottomSeparator?: boolean }) => {
+const GameRules = () => {
+  const text = isMobile(navigator.userAgent || navigator.vendor)
+    ? "Swipe with your fingers to move the numbers."
+    : "Use your arrow keys to move the numbers.";
+
   return (
     <Section
       id="howToPlaySection"
       title="HOW TO PLAY"
-      bottomSeparator={props.bottomSeparator}
+      bottomSeparator
     >
       <p>
-        Use your arrow keys to move the numbers. The same numbers will be merged
+        {text} The same numbers will be merged
         into one when they touch. After each move, a new number (
         <strong>2</strong> or <strong>4</strong>) is generated at a random empty
         position. Merge the numbers and build a 2048 number to{" "}
@@ -29,9 +34,9 @@ const GameRules = (props: { bottomSeparator?: boolean }) => {
   );
 };
 
-const LearnMore = (props: { bottomSeparator?: boolean }) => {
+const LearnMore = () => {
   return (
-    <Section title="LEARN MORE" bottomSeparator={props.bottomSeparator}>
+    <Section title="LEARN MORE">
       <p>
         This app is inspired by{" "}
         <a href="https://play2048.co/">https://play2048.co/</a>. If you want to
@@ -53,7 +58,6 @@ export const GameFooter = () => {
   return (
     <div>
       <GameRules />
-      <hr />
       <LearnMore />
     </div>
   );
