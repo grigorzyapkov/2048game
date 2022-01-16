@@ -60,8 +60,7 @@ const GameProvider = (props) => {
     initState(),
     gameReducer
   );
-  console.log("GameProvider");
-
+  
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       e.preventDefault();
