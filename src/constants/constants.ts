@@ -25,4 +25,8 @@ export const KEYBOARD_ARROW_TO_DIRECTION_MAP: { [key: string]: Direction } = {
   ArrowDown: "down",
   ArrowRight: "right",
   ArrowLeft: "left",
+  w: "up",
+  s: "down",
+  d: "right",
+  a: "left",
 };
