@@ -19,7 +19,7 @@ To get a local copy up and running follow these simple example steps:
   
 * Install NPM packages
   ```sh
-  npm install
+  yarn install
   ```
 
 * Run the app
