@@ -7,5 +7,3 @@ export interface BoardState {
 }
 
 export type BoardActionType = { type: "addMove"; payload: GameState } | { type: "startMove" } | {type: "endMove"};
-
-export type GameStatus = "WIN" | "GAME_OVER" | "IN_PROGRESS";

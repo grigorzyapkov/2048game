@@ -1,31 +1,74 @@
 import React from "react";
 import Button from "../Button";
 import { useGameContext } from "../Game";
+import { GameStatus, Tile } from "../Interfaces";
 
 const DATA = {
-  "WIN": {
+  WIN: {
     message: "Congratulations! You Win!",
     buttonText: "Play again",
-    containerClass: "gameResultWin"
+    containerClass: "gameResultWin",
   },
-  "LOSE": {
+  GAME_OVER: {
     message: "Game Over!",
     buttonText: "Try again",
-    containerClass: "gameResultLose"
-  }
-}
+    containerClass: "gameResultLose",
+  },
+};
 
-const GameResult = (props: {isWon: boolean}) => {
-  const { dispatch } = useGameContext();
-
-  const {message, buttonText, containerClass} = props.isWon ? DATA.WIN : DATA.LOSE;
+const Result = (props: {
+  isWin: boolean;
+  onContinue: () => void;
+  onRestart: () => void;
+  playAfterWin: boolean;
+  status: GameStatus;
+}) => {
+  const { isWin, onContinue, onRestart, playAfterWin } = props;
+  const { message, buttonText, containerClass } =
+    isWin || playAfterWin ? DATA.WIN : DATA.GAME_OVER;
 
   return (
     <div className={`gameResult ${containerClass}`}>
       <p>{message}</p>
-      <Button onClick={(_) => dispatch({ type: "restart" })}>{buttonText}</Button>
+      <div>
+        {isWin && (
+          <Button className="continueButton" onClick={() => onContinue()}>
+            Continue
+          </Button>
+        )}
+        <Button onClick={() => onRestart()}>{buttonText}</Button>
+      </div>
     </div>
   );
 };
 
-export default GameResult;
+const GameResultContainer = (props: { tiles: Tile[] }) => {
+  const { gameState, dispatch } = useGameContext();
+
+  const { status } = gameState;
+
+  const handleContinue = () => {
+    dispatch({ type: "continue" });
+  };
+
+  const handleRestart = () => {
+    dispatch({ type: "restart" });
+  };
+
+  const playAfterWin = props.tiles.some((x) => x.value === 2048);
+  return (
+    <>
+      {status !== "IN_PROGRESS" && status !== "PLAY_AFTER_WIN" && (
+        <Result
+          isWin={status === "WIN"}
+          playAfterWin={playAfterWin}
+          onRestart={handleRestart}
+          onContinue={handleContinue}
+          status={status}
+        />
+      )}
+    </>
+  );
+};
+
+export default GameResultContainer;

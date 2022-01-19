@@ -6,6 +6,8 @@ import {
   areEqual,
   createRandomTile,
   generateBoard,
+  isGameOver,
+  isGameWon,
   merge,
   MOVES_MAP,
 } from "../../utils/boardUtils";
@@ -16,6 +18,7 @@ import {
   IGameContext,
   Direction,
   Tile,
+  GameStatus
 } from "../Interfaces";
 import GameFooter from "../GameFooter";
 import useGameLocalStorage from "../../hooks/useLocalStorage";
@@ -23,10 +26,23 @@ import { KEYBOARD_ARROW_TO_DIRECTION_MAP } from "../../constants/constants";
 
 const GameContext = React.createContext<IGameContext>(null);
 
+const getGameStatus = (tiles: Tile[]): GameStatus => {
+  if (isGameOver(tiles)) {
+    return "GAME_OVER";
+  }
+
+  if (isGameWon(tiles)) {
+    return "WIN";
+  }
+
+  return "IN_PROGRESS";
+};
+
 const initState = (tilesCount = 2): GameState => {
   return {
     tiles: generateBoard(tilesCount),
     lastMove: null,
+    status: "IN_PROGRESS",
   };
 };
 
@@ -34,6 +50,9 @@ function gameReducer(state: GameState, action: GameContextActionType) {
   switch (action.type) {
     case "restart": {
       return initState();
+    }
+    case "continue": {
+      return { ...state, status: "PLAY_AFTER_WIN" };
     }
     case "move": {
       const move = MOVES_MAP[action.payload];
@@ -43,9 +62,15 @@ function gameReducer(state: GameState, action: GameContextActionType) {
       }
 
       tiles = merge(tiles);
+      tiles = [...tiles, createRandomTile(tiles)];
+      const status = getGameStatus(tiles);
+      const shouldChangeStatus =
+        state.status !== "PLAY_AFTER_WIN" || status === "GAME_OVER";
+
       return {
-        tiles: [...tiles, createRandomTile(tiles)],
+        tiles,
         lastMove: action.payload,
+        status: shouldChangeStatus ? status : state.status,
       };
     }
     default: {
@@ -55,12 +80,12 @@ function gameReducer(state: GameState, action: GameContextActionType) {
 }
 
 const GameProvider = (props) => {
-  const [state, dispatch] = useGameLocalStorage(
+  const [state, dispatch] = useGameLocalStorage<GameState>(
     "game",
     initState(),
     gameReducer
   );
-  
+
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       e.preventDefault();

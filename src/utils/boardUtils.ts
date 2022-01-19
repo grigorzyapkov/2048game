@@ -19,7 +19,21 @@ export const isGameWon = (tiles: Tile[]) => {
 };
 
 export const isGameOver = (tiles: Tile[]) => {
-  if (tiles.length < 16) {
+
+  const tilesOnSamePosition = (tiles: Tile[]) => {
+    const tilesMap = {};
+    for(let i = 0; i< tiles.length; i++){
+      const key = `${tiles[i].positionX}${tiles[i].positionY}`;
+      if(tilesMap[key]){
+        return true;
+      }
+      tilesMap[key] = true;
+    }
+
+    return false;
+  }
+
+  if (tiles.length < 16 || tilesOnSamePosition(tiles)) {
     return false;
   }
 

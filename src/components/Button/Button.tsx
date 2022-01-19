@@ -1,17 +1,24 @@
 import React from "react";
 
-import "./Button.scss"
+import "./Button.scss";
 
 interface ButtonProps {
   id?: string;
   children: React.ReactNode;
+  className?: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const Button = (props: ButtonProps) => {
+  const { id, children, className, onClick } = props;
+
   return (
-    <button id={props.id} className="appButton" onClick={props.onClick}>
-      {props.children}
+    <button
+      id={id}
+      className={`appButton ${className || ""}`}
+      onClick={onClick}
+    >
+      {children}
     </button>
   );
 };

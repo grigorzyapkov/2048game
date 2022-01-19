@@ -18,11 +18,15 @@ export interface Tile {
 
 export type GameContextActionType =
   | { type: "restart" }
+  | { type: "continue" }
   | { type: "move"; payload: Direction };
+
+export type GameStatus = "WIN" | "GAME_OVER" | "IN_PROGRESS" | "PLAY_AFTER_WIN";
 
 export interface GameState {
   tiles: Tile[];
   lastMove: Direction;
+  status: GameStatus;
 }
 
 export interface IGameContext {

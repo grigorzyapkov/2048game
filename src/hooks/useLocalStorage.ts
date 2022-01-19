@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 
 const GAME_ID = "2048game";
 
@@ -21,7 +21,7 @@ function useGameLocalStorage<T>(
   key: string,
   defaultValue: T,
   reducer = useStateReducer
-) {
+): [T, React.Dispatch<any>] {
   const [value, dispatch] = useReducer(
     reducer,
     getInitialValue(key, defaultValue)
