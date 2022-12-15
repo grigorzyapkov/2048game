@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import useGameLocalStorage from "../../hooks/useLocalStorage";
 import { getMaxId } from "../../utils/boardUtils";
 import { useGameContext } from "../Game/Game";
-import { Tile } from "../Interfaces";
+import { Tile } from "../interfaces";
 import ScoreBox from "../ScoreBox";
 import { ACTIONTYPE, ScoresState } from "./Interfaces";
 

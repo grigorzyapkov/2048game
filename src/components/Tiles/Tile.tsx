@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { TileType, Value } from "../Interfaces";
+import { TileType, Value } from "../interfaces";
 
 import "./Tile.scss";
 

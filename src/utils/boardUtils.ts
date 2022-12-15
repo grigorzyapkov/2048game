@@ -1,4 +1,4 @@
-import { Value, Tile, Direction } from "../components/Interfaces";
+import { Value, Tile, Direction } from "../components/interfaces";
 
 const INDICES = [0, 1, 2, 3];
 

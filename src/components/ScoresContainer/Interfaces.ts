@@ -1,4 +1,4 @@
-import { Tile } from "../Interfaces";
+import { Tile } from "../interfaces";
 
 export type ACTIONTYPE = { type: "change"; payload: Tile[] };
 

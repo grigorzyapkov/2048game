@@ -1,5 +1,5 @@
 import React from "react";
-import { Tile } from "../Interfaces";
+import { Tile } from "../interfaces";
 import Tiles from "../Tiles";
 import GameResult from "./GameResult";
 
