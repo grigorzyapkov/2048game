@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/2048game/static/css/main.f1867261.chunk.css",
-    "main.js": "/2048game/static/js/main.48c65646.chunk.js",
-    "main.js.map": "/2048game/static/js/main.48c65646.chunk.js.map",
+    "main.css": "/2048game/static/css/main.d8e27061.chunk.css",
+    "main.js": "/2048game/static/js/main.1af00af2.chunk.js",
+    "main.js.map": "/2048game/static/js/main.1af00af2.chunk.js.map",
     "runtime-main.js": "/2048game/static/js/runtime-main.02bcece3.js",
     "runtime-main.js.map": "/2048game/static/js/runtime-main.02bcece3.js.map",
     "static/js/2.653e0fa0.chunk.js": "/2048game/static/js/2.653e0fa0.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.3ec640d0.chunk.js": "/2048game/static/js/3.3ec640d0.chunk.js",
     "static/js/3.3ec640d0.chunk.js.map": "/2048game/static/js/3.3ec640d0.chunk.js.map",
     "index.html": "/2048game/index.html",
-    "static/css/main.f1867261.chunk.css.map": "/2048game/static/css/main.f1867261.chunk.css.map",
+    "static/css/main.d8e27061.chunk.css.map": "/2048game/static/css/main.d8e27061.chunk.css.map",
     "static/js/2.653e0fa0.chunk.js.LICENSE.txt": "/2048game/static/js/2.653e0fa0.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.02bcece3.js",
     "static/js/2.653e0fa0.chunk.js",
-    "static/css/main.f1867261.chunk.css",
-    "static/js/main.48c65646.chunk.js"
+    "static/css/main.d8e27061.chunk.css",
+    "static/js/main.1af00af2.chunk.js"
   ]
 }
