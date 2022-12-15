@@ -1,4 +1,4 @@
-import { Direction, TransformFactor } from "../components/Interfaces";
+import { Direction, TransformFactor } from "../components/interfaces";
 
 /*
 Size XS screen: Up to 420 pixels

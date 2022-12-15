@@ -1,4 +1,4 @@
-import { GameState, Tile } from "../Interfaces";
+import { GameState, Tile } from "../interfaces";
 
 export interface BoardState {
   moves: Array<GameState>;

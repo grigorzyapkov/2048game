@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../Button";
 import { useGameContext } from "../Game";
-import { GameStatus, Tile } from "../Interfaces";
+import { GameStatus, Tile } from "../interfaces";
 
 const DATA = {
   WIN: {

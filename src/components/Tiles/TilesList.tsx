@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ScreenSizeBreakpoint, TilesScreenTransformFactor } from "../../constants/constants";
-import { Tile, TransformFactor } from "../Interfaces";
+import { Tile, TransformFactor } from "../interfaces";
 import {default as BoardTile} from "./Tile";
 
 import "./TilesList.scss";

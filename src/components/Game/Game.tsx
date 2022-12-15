@@ -19,7 +19,7 @@ import {
   Direction,
   Tile,
   GameStatus
-} from "../Interfaces";
+} from "../interfaces";
 import GameFooter from "../GameFooter";
 import useGameLocalStorage from "../../hooks/useLocalStorage";
 import { KEYBOARD_ARROW_TO_DIRECTION_MAP } from "../../constants/constants";
